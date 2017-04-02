@@ -71,7 +71,15 @@
                                                                 
     </dependencies>
     
+    
+
+<build>  
     <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+        
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>2.6.1</version>
@@ -169,14 +177,6 @@
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
-
-<build>  
-    <plugins>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-        </plugin>
     </plugins>
 </build>  
 </project>
