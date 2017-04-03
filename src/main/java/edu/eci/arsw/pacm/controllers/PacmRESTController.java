@@ -72,7 +72,7 @@ public class PacmRESTController {
             return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
         } catch (NumberFormatException ex){
             Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("/{racenum}/ must be an integer value.",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("/{salanum}/ must be an integer value.",HttpStatus.BAD_REQUEST);
         }
     }
     
@@ -87,7 +87,23 @@ public class PacmRESTController {
             return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
         } catch (NumberFormatException ex){
             Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("/{racenum}/ must be an integer value.",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("/{salanum}/ must be an integer value.",HttpStatus.BAD_REQUEST);
         }
     }
+    
+    @RequestMapping(path = "/{salanum}/tablero",method = RequestMethod.GET)
+    public ResponseEntity<?> getTablero(@PathVariable(name = "salanum") String salanum) {
+        
+        try {
+            return new ResponseEntity<>(services.getTablero(),HttpStatus.ACCEPTED);
+        } catch (ServicesException ex) {
+            Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+        } catch (NumberFormatException ex){
+            Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("/{salanum}/ must be an integer value.",HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    
 }

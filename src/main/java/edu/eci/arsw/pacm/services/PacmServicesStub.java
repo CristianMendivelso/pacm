@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.pacm.services;
 
+import edu.eci.arsw.pacm.model.LeerFichero;
 import edu.eci.arsw.pacm.model.Player;
 import edu.eci.arsw.pacm.model.Teams;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class PacmServicesStub implements PacmServices{
 
     ConcurrentHashMap<Integer, Teams> salasData=new ConcurrentHashMap<>();
+    String[][] mat;
 
     public PacmServicesStub(){
         salasData.put(1,new Teams());
@@ -57,6 +59,15 @@ public class PacmServicesStub implements PacmServices{
     @Override
     public List<Player> getProtectores(int salanum) throws ServicesException {
         return salasData.get(salanum).getProtectores();
+    }
+
+    @Override
+    public String[][] getTablero() throws ServicesException {
+        if (mat==null){
+            mat=LeerFichero.muestraContenido();
+        }
+        return mat;
+
     }
     
 }

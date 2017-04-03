@@ -21,4 +21,6 @@ public interface PacmServices {
     public List<Player> getAtacantes(int salanum) throws ServicesException;
     
     public List<Player> getProtectores(int salanum) throws ServicesException;
+    
+    public String[][] getTablero() throws ServicesException;
 }
