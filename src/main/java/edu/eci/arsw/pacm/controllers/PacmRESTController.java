@@ -91,8 +91,8 @@ public class PacmRESTController {
         }
     }
     
-    @RequestMapping(path = "/{salanum}/tablero",method = RequestMethod.GET)
-    public ResponseEntity<?> getTablero(@PathVariable(name = "salanum") String salanum) {
+    @RequestMapping(path = "/tablero",method = RequestMethod.GET)
+    public ResponseEntity<?> getTablero() {
         
         try {
             return new ResponseEntity<>(services.getTablero(),HttpStatus.ACCEPTED);
