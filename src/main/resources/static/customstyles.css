@@ -26,9 +26,6 @@ hr {
   margin-bottom: 2rem;
 }
 
-#cnv {
-    background-color : rgba(158, 167, 184, 0.2)
-}
 
 #movebutton{
     background-color: #4CAF50; /* Green */
@@ -44,4 +41,9 @@ hr {
 }
 .controls {    
     background-color : rgba(158, 167, 184, 0.2)
+}
+
+#cnv {
+    background:   #000;
+
 }
