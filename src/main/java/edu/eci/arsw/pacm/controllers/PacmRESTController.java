@@ -32,26 +32,33 @@ public class PacmRESTController {
     
     @RequestMapping(path = "/{salanum}/atacantes",method = RequestMethod.PUT)
     public ResponseEntity<?> agregarAtacante(@PathVariable(name = "salanum") String salanum,@RequestBody Player p) {
-        
+        synchronized(services){
         try {
-            services.registrarJugadorAtacante(Integer.parseInt(salanum), p);
+            if (services.getAtacantes(Integer.parseInt(salanum)).size()<4){
+                services.registrarJugadorAtacante(Integer.parseInt(salanum), p);
+            }
+            
         } catch (ServicesException ex) {
             Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.BAD_REQUEST);
         }
             return new ResponseEntity<>(HttpStatus.CREATED);
+        }
     }
     
     @RequestMapping(path = "/{salanum}/protectores",method = RequestMethod.PUT)
     public ResponseEntity<?> agregarProtector(@PathVariable(name = "salanum") String salanum,@RequestBody Player p) {
-        
+        synchronized(this){
         try {
-            services.registrarJugadorProtector(Integer.parseInt(salanum), p);
+            if (services.getProtectores(Integer.parseInt(salanum)).size()<4){
+                services.registrarJugadorProtector(Integer.parseInt(salanum), p);
+            }
         } catch (ServicesException ex) {
             Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.BAD_REQUEST);
         }
             return new ResponseEntity<>(HttpStatus.CREATED);
+        }
     }
     
     
