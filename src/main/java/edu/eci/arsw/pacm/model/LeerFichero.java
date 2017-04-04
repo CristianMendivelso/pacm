@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class LeerFichero {
     
     public static String[][] muestraContenido(){
-        String[][] mat= new String[8][6];
+        String[][] mat= new String[25][36];
         FileReader f= null;
         try {
             
@@ -38,6 +38,7 @@ public class LeerFichero {
                 Logger.getLogger(LeerFichero.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        System.out.println(Arrays.toString(mat));
         return mat;
     }
 
