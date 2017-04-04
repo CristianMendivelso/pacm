@@ -38,7 +38,6 @@ public class LeerFichero {
                 Logger.getLogger(LeerFichero.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        System.out.println(Arrays.toString(mat));
         return mat;
     }
 
