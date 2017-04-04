@@ -200,6 +200,8 @@ function pacman(width, height, color, x, y, type) {
     }
 }
 
+
+
 function isUpperCase(str) {
     return str === str.toUpperCase();
 }
