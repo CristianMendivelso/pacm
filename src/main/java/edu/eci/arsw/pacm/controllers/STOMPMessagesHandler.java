@@ -22,12 +22,12 @@ public class STOMPMessagesHandler {
 
     @Autowired
     SimpMessagingTemplate msgt;
-    String[][] matriz = LeerFichero.muestraContenido();
+    String[][] matriz ;
 
     @MessageMapping("/JugarSala")
     public void prueba() {
         msgt.convertAndSend("/topic/JugarSala", "hola");
-
+        matriz= LeerFichero.muestraContenido();
     }
 
     @MessageMapping("/mover")

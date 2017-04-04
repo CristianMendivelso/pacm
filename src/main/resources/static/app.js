@@ -1,4 +1,7 @@
 var stompClient = null;
+var myplayer = null;
+var myposx = null;
+var myposy = null;
 
 
 function connect() {
@@ -10,7 +13,6 @@ function connect() {
         stompClient.subscribe('/topic/JugarSala', function (data) {
 
             $.get("/salas/tablero", function (data) {
-                console.log(data);
                 var tablero = data[0];
                 
                 for (i = 0; i < tablero.length; i++) {
@@ -20,18 +22,20 @@ function connect() {
                             myObstacle.update();
 
                         } else if (tablero[i][j] === "1") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new circle(3, 20, 20, "white", (j * 20) + 10, (i * 20) + 10);
                             myObstacle.update();
+                            
 
                         } else if (tablero[i][j] === "2") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new circle(5, 20, 20, "white", (j * 20) + 10, (i * 20) + 10);
                             myObstacle.update();
 
                         } else if (tablero[i][j] === "A") {
-                            console.log(tablero[i][j]);
-                            console.log(tablero[i][j] === "A");
                             var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
-                            jugadorpacman = myObstacle;
                             myObstacle.update();
                         } else if (tablero[i][j] === "B") {
                             var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
@@ -44,7 +48,6 @@ function connect() {
                             myObstacle.update();
                         } else if (tablero[i][j] === "a") {
                             var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
-                            jugadorfantasma = myObstacle;
                             myObstacle.update();
                         } else if (tablero[i][j] === "b") {
                             var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
@@ -66,24 +69,22 @@ function connect() {
             );
         });
         stompClient.subscribe('/topic/actualizarJuego', function (data) {
-
-            console.log("hooooooooooooooooo");
-            console.log(data);
             var tablero = JSON.parse(data.body);
-            globall=data;
-            console.log(globall);
             for (i = 0; i < tablero.length; i++) {
                 if (tablero[i].key ==="B"){
-                    console.log("holaa33sdsadsa");
                     var myObstacle = new pacman(20,20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png",20*tablero[i].y,20*tablero[i].x, "image");
-                    myposx = tablero[i].x;
-                    myposy = tablero[i].y;
+                    if(myplayer === tablero[i].key){
+                        myposx=tablero[i].x;
+                        myposy=tablero[i].y;
+                    }
                     myObstacle.update();
                 }
                 else if (tablero[i].key ==="b"){
                     var myObstacle = new ghost(20,20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png",20*tablero[i].y,20*tablero[i].x, "image");
-                    myposx = tablero[i].x;
-                    myposy = tablero[i].y;
+                    if(myplayer === tablero[i].key){
+                        myposx=tablero[i].x;
+                        myposy=tablero[i].y;
+                    }
                     myObstacle.update();
                 }
                 else if (tablero[i].key ==="0"){
@@ -104,7 +105,6 @@ function connect() {
 
     });
 }
-
 
 function ghost(width, height, color, x, y, type) {
     this.type = type;
@@ -281,7 +281,6 @@ function circle(radio, width, height, color, x, y) {
 
 
 function create() {
-
     stompClient.send("/app/JugarSala", {});
 
 }
