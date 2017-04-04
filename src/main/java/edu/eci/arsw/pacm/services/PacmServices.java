@@ -7,6 +7,7 @@ package edu.eci.arsw.pacm.services;
 
 import edu.eci.arsw.pacm.model.Player;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -23,4 +24,6 @@ public interface PacmServices {
     public List<Player> getProtectores(int salanum) throws ServicesException;
     
     public String[][] getTablero() throws ServicesException;
+    
+    public ConcurrentHashMap<String, String> getIdentificadores()throws ServicesException;
 }

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class PacmServicesStub implements PacmServices{
 
     ConcurrentHashMap<Integer, Teams> salasData=new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, String> identifacadores=new ConcurrentHashMap<>();
     String[][] mat;
 
     public PacmServicesStub(){
@@ -34,6 +35,8 @@ public class PacmServicesStub implements PacmServices{
         }
         else{
             CopyOnWriteArrayList tmp = salasData.get(salanum).getAtacantes();
+            int a = 64+tmp.size();
+            identifacadores.put(p.getNombre(),Character.toString ((char) a));
             tmp.add(p);
             salasData.get(salanum).setAtacantes(tmp);
         }
@@ -46,6 +49,8 @@ public class PacmServicesStub implements PacmServices{
         }
         else{
             CopyOnWriteArrayList tmp = salasData.get(salanum).getProtectores();
+            int a = 96+tmp.size();
+            identifacadores.put(p.getNombre(),Character.toString ((char) a));
             tmp.add(p);
             salasData.get(salanum).setProtectores(tmp);
         }
@@ -68,6 +73,9 @@ public class PacmServicesStub implements PacmServices{
         }
         return mat;
 
+    }
+    public ConcurrentHashMap<String, String> getIdentificadores() throws ServicesException {
+        return identifacadores;
     }
     
 }

@@ -8,6 +8,7 @@ package edu.eci.arsw.pacm.controllers;
 import edu.eci.arsw.pacm.model.Player;
 import edu.eci.arsw.pacm.services.PacmServices;
 import edu.eci.arsw.pacm.services.ServicesException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +96,10 @@ public class PacmRESTController {
     public ResponseEntity<?> getTablero() {
         
         try {
-            return new ResponseEntity<>(services.getTablero(),HttpStatus.ACCEPTED);
+            ArrayList<Object> informacion = new ArrayList();
+            informacion.add(services.getTablero());
+            informacion.add(services.getIdentificadores());
+            return new ResponseEntity<>(informacion,HttpStatus.ACCEPTED);
         } catch (ServicesException ex) {
             Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
