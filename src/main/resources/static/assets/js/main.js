@@ -163,6 +163,7 @@
 
 							// Show message.
 								$message._show('success', 'Thank you!');
+							window.location.replace("/jugar.html");
 								//$message._show('failure', 'Something went wrong. Please try again.');
 
 						}, 750);
