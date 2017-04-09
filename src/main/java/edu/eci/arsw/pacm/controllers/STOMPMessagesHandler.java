@@ -20,6 +20,7 @@ public class STOMPMessagesHandler {
     @Autowired
     SimpMessagingTemplate msgt;
     String[][] matriz ;
+    int puntos=34;
 
     @MessageMapping("/JugarSala")
     public void prueba() {
@@ -43,6 +44,9 @@ public class STOMPMessagesHandler {
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
                         msgt.convertAndSend("/topic/actualizarJuego", actualizaciones);
+                        puntos-=1;
+                        msgt.convertAndSend("/topic/puntosRestantes", puntos);
+                        
                     }
                 } else if (j.getK() == 37) {
                     if (!(matriz[j.getX()][j.getY() - 1]).equals("3")) {
@@ -53,6 +57,8 @@ public class STOMPMessagesHandler {
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
                         msgt.convertAndSend("/topic/actualizarJuego", actualizaciones);
+                        puntos-=1;
+                        msgt.convertAndSend("/topic/puntosRestantes", puntos);
                     }
                 } else if (j.getK() == 38) {
                     if (!(matriz[j.getX() - 1][j.getY()]).equals("3")) {
@@ -64,6 +70,8 @@ public class STOMPMessagesHandler {
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
                         msgt.convertAndSend("/topic/actualizarJuego", actualizaciones);
+                        puntos-=1;
+                        msgt.convertAndSend("/topic/puntosRestantes", puntos);
                     }
                 } else if (j.getK() == 39) {
                     if (!(matriz[j.getX()][j.getY() + 1]).equals("3")) {
@@ -75,6 +83,8 @@ public class STOMPMessagesHandler {
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
                         msgt.convertAndSend("/topic/actualizarJuego", actualizaciones);
+                        puntos-=1;
+                        msgt.convertAndSend("/topic/puntosRestantes", puntos);
                     }
                 }
             } else if(matriz[j.getX()][j.getY()].equals("b")) {
@@ -125,6 +135,9 @@ public class STOMPMessagesHandler {
                         msgt.convertAndSend("/topic/actualizarJuego", actualizaciones);
                     }
                 }
+            }
+            if (puntos==0){
+               msgt.convertAndSend("/topic/findejuego", "EQUIPO ATACANTE"); 
             }
 
         }

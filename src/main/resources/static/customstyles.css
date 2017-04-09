@@ -44,6 +44,26 @@ hr {
 }
 
 #cnv {
-    background:   #000;
+    background: #000;
+    display: block;
+      margin-left: auto;
+      margin-right: auto;
+      border:none;
+}
 
+#puntosrestantes {
+    color:yellow;
+    font-weight: bold;
+    display: block;
+      margin-left: auto;
+      margin-right: auto;
+      border:none;
+     
+}
+
+#titulotablero {
+    color:yellow;
+    font-style: italic;
+    text-align: center;
+    font-weight: bold;
 }

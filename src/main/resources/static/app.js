@@ -2,6 +2,7 @@ var stompClient = null;
 var myplayer = null;
 var myposx = null;
 var myposy = null;
+var ctx=null;
 
 
 function connect() {
@@ -21,7 +22,13 @@ function connect() {
                             var myObstacle = new bloque(20, 20, "blue", j * 20, i * 20);
                             myObstacle.update();
 
-                        } else if (tablero[i][j] === "1") {
+                        }
+                        else if (tablero[i][j] === "0") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
+                        }
+                        
+                        else if (tablero[i][j] === "1") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
                             var myObstacle = new circle(3, 20, 20, "white", (j * 20) + 10, (i * 20) + 10);
@@ -35,33 +42,46 @@ function connect() {
                             myObstacle.update();
 
                         } else if (tablero[i][j] === "A") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "B") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "C") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "D") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "a") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "b") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "c") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "d") {
+                            var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
+                            myObstacle.update();
                             var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         }
-
-
-
 
                     }
                 }
@@ -101,7 +121,23 @@ function connect() {
             }
 
         });
-
+        
+        stompClient.subscribe('/topic/puntosRestantes', function (data) {
+            var puntos=JSON.parse(data.body);
+            $("#puntosrestantes").empty();
+            $("#puntosrestantes").append("POINTS LEFT: " + puntos);
+         
+        });
+        
+        stompClient.subscribe('/topic/findejuego', function (data) {
+            var gana=data.body;
+            ctx.font = "bold 34px sans-serif";
+            ctx.fillStyle = "white";
+            ctx.fillText("El Equipo Ganador Es El",110,200);
+            ctx.fillText(gana,110,250);
+            disconnect();
+         
+        });
 
     });
 }
