@@ -13,13 +13,16 @@ public class Elemento {
     private int x ;
     private int y ;
     private String key ;
+    private int mem;
     
     public Elemento (){}
 
-    public Elemento(int x, int y, String key) {
+    public Elemento(int x, int y, String key,int mem) {
         this.x = x;
         this.y = y;
         this.key = key;
+        this.mem=mem;
+        
     }
 
     /**
@@ -62,5 +65,13 @@ public class Elemento {
      */
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public int getMem() {
+        return mem;
+    }
+
+    public void setMem(int mem) {
+        this.mem = mem;
     }
 }

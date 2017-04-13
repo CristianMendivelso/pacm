@@ -3,6 +3,7 @@ var myplayer = null;
 var myposx = null;
 var myposy = null;
 var ctx=null;
+var mymem=null;
 
 
 function connect() {
@@ -104,6 +105,7 @@ function connect() {
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
+                        mymem=tablero[i].mem;
                     }
                     myObstacle.update();
                 }
@@ -115,6 +117,14 @@ function connect() {
                     var myObstacle = new bloque(20, 20, "black",20*tablero[i].y, 20*tablero[i].x);
                     myObstacle.update();
                     var myObstacle = new circle(3, 20, 20, "white", (20*tablero[i].y) + 10, (20*tablero[i].x) + 10);
+                    myObstacle.update();
+                    
+                }
+                
+                else if (tablero[i].key ==="2"){
+                    var myObstacle = new bloque(20, 20, "black",20*tablero[i].y, 20*tablero[i].x);
+                    myObstacle.update();
+                    var myObstacle = new circle(5, 20, 20, "white", (20*tablero[i].y) + 10, (20*tablero[i].x) + 10);
                     myObstacle.update();
                     
                 }
@@ -335,6 +345,7 @@ function controlarpacman() {
     myplayer = "B";
     myposx = 1;
     myposy = 1;
+    mymem=2;
 }
 
 
@@ -342,11 +353,12 @@ function controlarfantasma() {
     myplayer = "b";
     myposx = 1;
     myposy = 34;
+    mymem= 1;
 }
 
 function moverPersonaje(key) {
     if (36 < key && key < 41) {
-        stompClient.send("/app/mover",{}, JSON.stringify( {x: myposx, y: myposy, k: key}));
+        stompClient.send("/app/mover",{}, JSON.stringify( {x: myposx, y: myposy, k: key, mem:mymem}));
     }
 
 }

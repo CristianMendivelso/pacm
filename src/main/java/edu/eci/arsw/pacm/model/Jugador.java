@@ -13,13 +13,16 @@ public class Jugador {
     private int x ;
     private int y ;
     private int k ;
+    private int mem;
+
     
     public Jugador (){}
 
-    public Jugador(int x, int y, int k) {
+    public Jugador(int x, int y, int k,int mem) {
         this.x = x;
         this.y = y;
         this.k = k;
+        this.mem=mem;
     }
 
     /**
@@ -63,4 +66,15 @@ public class Jugador {
     public void setK(int k) {
         this.k = k;
     }
+    
+    
+    public int getMem() {
+        return mem;
+    }
+
+    public void setMem(int mem) {
+        this.mem = mem;
+    }
+    
+    
 }
