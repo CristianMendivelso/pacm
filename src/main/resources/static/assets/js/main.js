@@ -1,3 +1,4 @@
+username=null;
 /*
 	Eventually by HTML5 UP
 	html5up.net | @ajlkn
@@ -162,11 +163,12 @@
 								$submit.disabled = false;
 
 							// Show message.
+                                                                
 								$message._show('success', 'Thank you!');
-							window.location.replace("/jugar.html");
+                                                                
 								//$message._show('failure', 'Something went wrong. Please try again.');
 
-						}, 750);
+						}, 1200);
 
 				});
 
