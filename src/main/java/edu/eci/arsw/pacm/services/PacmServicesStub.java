@@ -8,6 +8,7 @@ package edu.eci.arsw.pacm.services;
 import edu.eci.arsw.pacm.model.LeerFichero;
 import edu.eci.arsw.pacm.model.Player;
 import edu.eci.arsw.pacm.model.Teams;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class PacmServicesStub implements PacmServices{
 
     ConcurrentHashMap<Integer, Teams> salasData=new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, String> identifacadores=new ConcurrentHashMap<>();
+    ConcurrentHashMap<String, String> identificadores=new ConcurrentHashMap<>();
     String[][] mat;
 
     public PacmServicesStub(){
@@ -31,15 +32,15 @@ public class PacmServicesStub implements PacmServices{
     @Override
     public void registrarJugadorAtacante(int salanum, Player p) throws ServicesException{
         if (!salasData.containsKey(salanum)){
-            throw new ServicesException("Sala "+salanum+" no ha sido registrada en el servidor.");
+            salasData.put(salanum,new Teams());
+            
         }
-        else{
             CopyOnWriteArrayList tmp = salasData.get(salanum).getAtacantes();
             int a = 64+tmp.size();
-            identifacadores.put(p.getNombre(),Character.toString ((char) a));
+            identificadores.put(p.getNombre(),Character.toString ((char) a));
             tmp.add(p);
             salasData.get(salanum).setAtacantes(tmp);
-        }
+        
     }
 
     @Override
@@ -50,7 +51,7 @@ public class PacmServicesStub implements PacmServices{
         else{
             CopyOnWriteArrayList tmp = salasData.get(salanum).getProtectores();
             int a = 96+tmp.size();
-            identifacadores.put(p.getNombre(),Character.toString ((char) a));
+            identificadores.put(p.getNombre(),Character.toString ((char) a));
             tmp.add(p);
             salasData.get(salanum).setProtectores(tmp);
         }
@@ -74,8 +75,9 @@ public class PacmServicesStub implements PacmServices{
         return mat;
 
     }
+    @Override
     public ConcurrentHashMap<String, String> getIdentificadores() throws ServicesException {
-        return identifacadores;
+        return identificadores;
     }
     
 }
