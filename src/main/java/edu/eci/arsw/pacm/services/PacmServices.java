@@ -25,5 +25,9 @@ public interface PacmServices {
     
     public String[][] getTablero() throws ServicesException;
     
+    public int getSalaDisponible() throws ServicesException;
+    
+    public void setSalaDisponible(int sala) throws ServicesException;
+    
     public ConcurrentHashMap<String, String> getIdentificadores()throws ServicesException;
 }

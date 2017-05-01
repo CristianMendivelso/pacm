@@ -38,9 +38,9 @@ public class PacmRESTController {
     
     @RequestMapping(path = "/{salanum}/atacantes",method = RequestMethod.PUT)
     public ResponseEntity<?> agregarAtacante(@PathVariable(name = "salanum") String salanum,@RequestBody Player p) throws ServicesException {
-        synchronized(services){
+        synchronized(this){
         try {
-            if (services.getAtacantes(Integer.parseInt(salanum)).size()<4){
+            if (services.getAtacantes(Integer.parseInt(salanum)).size()<2){
                 services.registrarJugadorAtacante(Integer.parseInt(salanum), p);
                 ArrayList<List<Player>> temp=new ArrayList<>();
                 List <Player >atacantes=services.getAtacantes(Integer.parseInt(salanum));
@@ -48,8 +48,9 @@ public class PacmRESTController {
                 temp.add(atacantes);
                 temp.add(protectores);
                 msgt.convertAndSend("/topic/mostrarJugadores",temp);
-                if (protectores.size()==4 && atacantes.size()==4){
+                if (protectores.size()==2 && atacantes.size()==2){
                     msgt.convertAndSend("/topic/Jugar",p.getNombre());
+                    services.setSalaDisponible(services.getSalaDisponible()+1);
                 }
             }
             else{
@@ -68,7 +69,7 @@ public class PacmRESTController {
     public ResponseEntity<?> agregarProtector(@PathVariable(name = "salanum") String salanum,@RequestBody Player p) throws ServicesException {
         synchronized(this){
         try {
-            if (services.getProtectores(Integer.parseInt(salanum)).size()<4){
+            if (services.getProtectores(Integer.parseInt(salanum)).size()<2){
                 services.registrarJugadorProtector(Integer.parseInt(salanum), p);
                 ArrayList<List<Player>> temp=new ArrayList<>();
                 List <Player >atacantes=services.getAtacantes(Integer.parseInt(salanum));
@@ -76,8 +77,9 @@ public class PacmRESTController {
                 temp.add(atacantes);
                 temp.add(protectores);
                 msgt.convertAndSend("/topic/mostrarJugadores",temp);
-                if (protectores.size()==4 && atacantes.size()==4){
+                if (protectores.size()==2 && atacantes.size()==2){
                     msgt.convertAndSend("/topic/Jugar",p.getNombre());
+                    services.setSalaDisponible(services.getSalaDisponible()+1);
                 }
             }
              else{
@@ -119,6 +121,17 @@ public class PacmRESTController {
             Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("/{salanum}/ must be an integer value.",HttpStatus.BAD_REQUEST);
         }
+    }
+    
+    @RequestMapping(path = "/salaDisponible",method = RequestMethod.GET)
+    public ResponseEntity<?> getSalaDisponible() {
+        synchronized(msgt){
+        try {
+            return new ResponseEntity<>(String.valueOf(services.getSalaDisponible()),HttpStatus.ACCEPTED);
+        } catch (ServicesException ex) {
+            Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+        }}
     }
     
     @RequestMapping(path = "/tablero",method = RequestMethod.GET)

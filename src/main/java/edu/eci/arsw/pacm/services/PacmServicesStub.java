@@ -21,12 +21,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class PacmServicesStub implements PacmServices{
 
-    ConcurrentHashMap<Integer, Teams> salasData=new ConcurrentHashMap<>();
-    ConcurrentHashMap<String, String> identificadores=new ConcurrentHashMap<>();
-    String[][] mat;
+    private ConcurrentHashMap<Integer, Teams> salasData=new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, String> identificadores=new ConcurrentHashMap<>();
+    private String[][] mat;
+    private int salas=0;
+    
 
     public PacmServicesStub(){
-        salasData.put(1,new Teams());
+        salasData.put(0,new Teams());
     }
     
     @Override
@@ -79,5 +81,17 @@ public class PacmServicesStub implements PacmServices{
     public ConcurrentHashMap<String, String> getIdentificadores() throws ServicesException {
         return identificadores;
     }
+
+    @Override
+    public int getSalaDisponible() throws ServicesException {
+        return salas;
+    }
+
+    @Override
+    public void setSalaDisponible(int sala) throws ServicesException {
+        salasData.put(sala,new Teams());
+        this.salas=sala;
+    }
+    
     
 }
