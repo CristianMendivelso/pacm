@@ -378,6 +378,49 @@ $(document).ready(
             window.addEventListener('keyup', function (e) {
                 key = false;
             })
+            
+            $.get("/salas/"+sessionStorage.getItem('sala')+"/"+sessionStorage.getItem('identificador'), function (data) {
+                     myplayer=data;
+                     //si es mayuscula es decir pacman
+                     if (data === data.toUpperCase()){
+                         mymem=2;
+                         if (data==='A'){
+                             myposx = 23;
+                             myposy = 1;
+                         }
+                         else if (data==='B'){
+                             myposx = 1;
+                             myposy = 1;
+                         }
+                         else if (data==='D'){
+                             myposx = 1;
+                             myposy = 34;
+                         }
+                         else if (data==='C'){
+                             myposx = 23;
+                             myposy = 34;
+                         }
+                     }
+                     else{
+                         mymem=0;
+                         if (data==='a'){
+                             myposx = 13;
+                             myposy = 15;
+                         }
+                         else if (data==='b'){
+                             myposx = 18;
+                             myposy = 16;
+                         }
+                         else if (data==='c'){
+                             myposx = 17;
+                             myposy = 18;
+                         }
+                         else if (data==='d'){
+                             myposx = 17;
+                             myposy = 12;
+                         }
+                     }
+            });
 
         }
 );

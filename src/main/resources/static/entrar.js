@@ -7,7 +7,7 @@ function guardar() {
         alert("Ingrese Un Nombre De Usuario");
     }
     else {
-        localStorage.setItem('username', document.getElementById('username').value);
+        sessionStorage.setItem('username', document.getElementById('username').value);
         document.location.href = "select.html";
     }
 

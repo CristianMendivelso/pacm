@@ -5,6 +5,10 @@
  */
 package edu.eci.arsw.pacm.model;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -12,13 +16,26 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author User
  */
 public class Teams {
-    
-    
-    private CopyOnWriteArrayList <Player> protectores = new CopyOnWriteArrayList ();
-    private CopyOnWriteArrayList <Player> atacantes = new CopyOnWriteArrayList ();
+
+    private CopyOnWriteArrayList<Player> protectores = new CopyOnWriteArrayList();
+    private CopyOnWriteArrayList<Player> atacantes = new CopyOnWriteArrayList();
+    private HashMap<String, String> identificadores = new HashMap<>();
+
+    public void setIdentificadores(String a, String b) {
+        this.identificadores.put(a, b);
+        Iterator it = identificadores.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry e = (Map.Entry) it.next();
+            System.out.println(e.getKey() + " " + e.getValue());
+        }
+    }
 
     public Teams() {
-        
+
+    }
+
+    public HashMap<String, String> getIdentificadores() {
+        return identificadores;
     }
 
     public CopyOnWriteArrayList<Player> getProtectores() {
@@ -36,8 +53,5 @@ public class Teams {
     public void setAtacantes(CopyOnWriteArrayList<Player> atacantes) {
         this.atacantes = atacantes;
     }
-
-   
-    
 
 }

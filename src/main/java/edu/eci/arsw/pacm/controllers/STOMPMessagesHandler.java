@@ -26,7 +26,7 @@ public class STOMPMessagesHandler {
     public void prueba() {
         msgt.convertAndSend("/topic/JugarSala", "hola");
         matriz= LeerFichero.muestraContenido();
-        puntos=35;
+        puntos=LeerFichero.puntos;
     }
 
     @MessageMapping("/mover")

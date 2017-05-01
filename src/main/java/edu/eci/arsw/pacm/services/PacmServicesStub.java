@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 public class PacmServicesStub implements PacmServices{
 
     private ConcurrentHashMap<Integer, Teams> salasData=new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, String> identificadores=new ConcurrentHashMap<>();
     private String[][] mat;
     private int salas=0;
     
@@ -33,13 +32,10 @@ public class PacmServicesStub implements PacmServices{
     
     @Override
     public void registrarJugadorAtacante(int salanum, Player p) throws ServicesException{
-        if (!salasData.containsKey(salanum)){
-            salasData.put(salanum,new Teams());
-            
-        }
+        
             CopyOnWriteArrayList tmp = salasData.get(salanum).getAtacantes();
-            int a = 64+tmp.size();
-            identificadores.put(p.getNombre(),Character.toString ((char) a));
+            int a = 65+tmp.size();
+            salasData.get(salanum).setIdentificadores(p.getAlias(),Character.toString ((char) a));
             tmp.add(p);
             salasData.get(salanum).setAtacantes(tmp);
         
@@ -47,16 +43,13 @@ public class PacmServicesStub implements PacmServices{
 
     @Override
     public void registrarJugadorProtector(int salanum, Player p) throws ServicesException{
-        if (!salasData.containsKey(salanum)){
-            throw new ServicesException("Sala "+salanum+" no ha sido registrada en el servidor.");
-        }
-        else{
+        
             CopyOnWriteArrayList tmp = salasData.get(salanum).getProtectores();
-            int a = 96+tmp.size();
-            identificadores.put(p.getNombre(),Character.toString ((char) a));
+            int a = 97+tmp.size();
+            salasData.get(salanum).setIdentificadores(p.getAlias(),Character.toString ((char) a));
             tmp.add(p);
             salasData.get(salanum).setProtectores(tmp);
-        }
+        
     }
 
     @Override
@@ -77,10 +70,7 @@ public class PacmServicesStub implements PacmServices{
         return mat;
 
     }
-    @Override
-    public ConcurrentHashMap<String, String> getIdentificadores() throws ServicesException {
-        return identificadores;
-    }
+    
 
     @Override
     public int getSalaDisponible() throws ServicesException {
@@ -91,6 +81,11 @@ public class PacmServicesStub implements PacmServices{
     public void setSalaDisponible(int sala) throws ServicesException {
         salasData.put(sala,new Teams());
         this.salas=sala;
+    }
+
+    @Override
+    public String getId(int sala, String user) throws ServicesException {
+        return salasData.get(sala).getIdentificadores().get(user);
     }
     
     

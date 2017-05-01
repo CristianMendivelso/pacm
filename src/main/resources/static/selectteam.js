@@ -7,19 +7,22 @@ var sala;
 
 function atacante() {
     if (flag === 0) {
-        jugador = {nombre: username};
+        var f=new Date();
+        cad=f.getHours()+":"+f.getMinutes()+":"+f.getSeconds();
+        identificador=username+cad;
         $.ajax({
             url: "salas/"+sala+"/atacantes",
             type: 'PUT',
-            data: JSON.stringify({nombre: username}),
+            data: JSON.stringify({nombre: username,alias:username+cad}),
             contentType: "application/json"
         }).then(
                 function () {
                     alert("Competitor registered successfully!");
                     flag = 1;
+                    sessionStorage.setItem('identificador', identificador);
                     stompClient.subscribe('/topic/Jugar', function (data) {
                         document.location.href = "jugar.html";
-
+                        
                     });
                 }
         ,
@@ -35,11 +38,13 @@ function atacante() {
 
 function protector() {
     if (flag === 0) {
-        jugador = {nombre: username};
+        var f=new Date();
+        cad=f.getHours()+":"+f.getMinutes()+":"+f.getSeconds();
+        identificador=username+cad;
         $.ajax({
             url: "salas/"+sala+"/protectores",
             type: 'PUT',
-            data: JSON.stringify(jugador),
+            data: JSON.stringify({nombre: username,alias:username+cad}),
             contentType: "application/json"
         }).then(
                 function () {
@@ -47,6 +52,7 @@ function protector() {
                     stompClient.subscribe('/topic/Jugar', function (data) {
                         document.location.href = "jugar.html";
                     });
+                    sessionStorage.setItem('identificador', identificador);
                     flag = 1;
                 }
         ,
@@ -102,12 +108,13 @@ $(document).ready(
         function () {
             console.info('loading script!...');
             connect();
-            username = localStorage.getItem('username');
-            $("#welcome").append("<b>Bienvenido " + localStorage.getItem('username') + "</b><br><br>");
+            username = sessionStorage.getItem('username');
+            $("#welcome").append("<b>Bienvenido " + sessionStorage.getItem('username') + "</b><br><br>");
             
             
             $.get("/salas/salaDisponible", function (data) {
                 sala=data;
+                sessionStorage.setItem('sala', sala);
                 $.get("/salas/"+data+"/atacantes", function (data2) {
                         $("#atc").empty();
                         for (i = 0; i < data2.length; i++) {
@@ -120,7 +127,7 @@ $(document).ready(
                             $("#pro").append(data3[i].nombre + "<br>");
                         }
                         });
-                }                
+                }
             );
         }
 );

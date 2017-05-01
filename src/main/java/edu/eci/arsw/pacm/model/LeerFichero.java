@@ -10,34 +10,39 @@ import java.util.logging.Logger;
 
 public class LeerFichero {
     
+    public static int puntos;
+    
     public static String[][] muestraContenido(){
-        String[][] mat= new String[25][36];
+        String[][] mat=null;
         FileReader f= null;
+        
         try {
             
             String cadena;
             f = new FileReader("file.txt");
             BufferedReader b = new BufferedReader(f);
             int cont=0;
-            while((cadena = b.readLine())!=null) {
-                String[] temp = cadena.split("\t");
-                for (int i=0;i<temp.length;i++){
-                    mat[cont][i]=temp[i];
+            cadena = b.readLine();
+                String[] temp = cadena.split(" ");
+                
+                int filas=Integer.valueOf(temp[0]);
+                int col=Integer.valueOf(temp[1]);
+                puntos=Integer.valueOf(temp[2]);
+                mat=new String[filas][col];
+                
+                for (int i=0;i<filas;i++){
+                    cadena = b.readLine();
+                    temp = cadena.split("\t");
+                    for (int j=0;j<temp.length;j++){
+                        mat[i][j]=temp[j];
+                    }
                 }
-                cont++;
-            }   b.close();
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(LeerFichero.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LeerFichero.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                f.close();
-            } catch (IOException ex) {
+                b.close();
+
+            } catch (IOException ex) {   
                 Logger.getLogger(LeerFichero.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+            }   
+            
         return mat;
     }
 

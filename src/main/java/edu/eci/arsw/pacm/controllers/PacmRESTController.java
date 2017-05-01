@@ -123,6 +123,23 @@ public class PacmRESTController {
         }
     }
     
+    @RequestMapping(path = "/{salanum}/{id}",method = RequestMethod.GET)
+    public ResponseEntity<?> getId(@PathVariable(name = "salanum") String salanum,@PathVariable(name = "id") String id) {
+        
+        try {
+            return new ResponseEntity<>(services.getId(Integer.parseInt(salanum),id),HttpStatus.ACCEPTED);
+        } catch (ServicesException ex) {
+            Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+        } catch (NumberFormatException ex){
+            Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("/{salanum}/ must be an integer value.",HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    
+    
+    
     @RequestMapping(path = "/salaDisponible",method = RequestMethod.GET)
     public ResponseEntity<?> getSalaDisponible() {
         synchronized(msgt){
@@ -140,7 +157,6 @@ public class PacmRESTController {
         try {
             ArrayList<Object> informacion = new ArrayList();
             informacion.add(services.getTablero());
-            informacion.add(services.getIdentificadores());
             return new ResponseEntity<>(informacion,HttpStatus.ACCEPTED);
         } catch (ServicesException ex) {
             Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);

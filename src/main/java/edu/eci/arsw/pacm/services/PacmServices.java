@@ -29,5 +29,5 @@ public interface PacmServices {
     
     public void setSalaDisponible(int sala) throws ServicesException;
     
-    public ConcurrentHashMap<String, String> getIdentificadores()throws ServicesException;
+    public String getId(int sala, String user)  throws ServicesException;
 }
