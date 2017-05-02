@@ -86,13 +86,15 @@ function connect() {
 
                     }
                 }
+                
+                
             }
             );
         });
         stompClient.subscribe('/topic/actualizarJuego', function (data) {
             var tablero = JSON.parse(data.body);
             for (i = 0; i < tablero.length; i++) {
-                if (tablero[i].key ==="B"){
+                if (tablero[i].key ==="A"){
                     var myObstacle = new pacman(20,20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
@@ -100,7 +102,58 @@ function connect() {
                     }
                     myObstacle.update();
                 }
+                else if (tablero[i].key ==="B"){
+                    var myObstacle = new pacman(20,20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    if(myplayer === tablero[i].key){
+                        myposx=tablero[i].x;
+                        myposy=tablero[i].y;
+                    }
+                    myObstacle.update();
+                }
+                else if (tablero[i].key ==="C"){
+                    var myObstacle = new pacman(20,20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    if(myplayer === tablero[i].key){
+                        myposx=tablero[i].x;
+                        myposy=tablero[i].y;
+                    }
+                    myObstacle.update();
+                }
+                else if (tablero[i].key ==="D"){
+                    var myObstacle = new pacman(20,20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    if(myplayer === tablero[i].key){
+                        myposx=tablero[i].x;
+                        myposy=tablero[i].y;
+                    }
+                    myObstacle.update();
+                }
+                else if (tablero[i].key ==="a"){
+                    var myObstacle = new ghost(20,20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    if(myplayer === tablero[i].key){
+                        myposx=tablero[i].x;
+                        myposy=tablero[i].y;
+                        mymem=tablero[i].mem;
+                    }
+                    myObstacle.update();
+                }
                 else if (tablero[i].key ==="b"){
+                    var myObstacle = new ghost(20,20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    if(myplayer === tablero[i].key){
+                        myposx=tablero[i].x;
+                        myposy=tablero[i].y;
+                        mymem=tablero[i].mem;
+                    }
+                    myObstacle.update();
+                }
+                else if (tablero[i].key ==="c"){
+                    var myObstacle = new ghost(20,20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    if(myplayer === tablero[i].key){
+                        myposx=tablero[i].x;
+                        myposy=tablero[i].y;
+                        mymem=tablero[i].mem;
+                    }
+                    myObstacle.update();
+                }
+                else if (tablero[i].key ==="d"){
                     var myObstacle = new ghost(20,20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;

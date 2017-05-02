@@ -34,15 +34,19 @@ public class STOMPMessagesHandler {
         synchronized (msgt) {
             ArrayList<Elemento> actualizaciones = new ArrayList();
             //Si es pacman
-            if (matriz[j.getX()][j.getY()].equals("B")) {
+            if (matriz[j.getX()][j.getY()].equals("B") || matriz[j.getX()][j.getY()].equals("A") || matriz[j.getX()][j.getY()].equals("C") || matriz[j.getX()][j.getY()].equals("D") ) {
                 if (j.getK() == 40) {
+                    
                     if (!(matriz[j.getX() + 1][j.getY()]).equals("3")) {
+                        
                         matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX() + 1, j.getY(), "B",0);
+                        
+                        Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX()+1][j.getY()],0);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
+                        
                         msgt.convertAndSend("/topic/actualizarJuego", actualizaciones);
                         puntos-=1;
                         msgt.convertAndSend("/topic/puntosRestantes", puntos);
@@ -52,7 +56,7 @@ public class STOMPMessagesHandler {
                     if (!(matriz[j.getX()][j.getY() - 1]).equals("3")) {
                         matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX(), j.getY() - 1, "B",0);
+                        Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY()-1],0);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -65,7 +69,7 @@ public class STOMPMessagesHandler {
 
                         matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX() - 1, j.getY(), "B",0);
+                        Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX()-1][j.getY()],0);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -78,7 +82,7 @@ public class STOMPMessagesHandler {
 
                         matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX(), j.getY() + 1, "B",0);
+                        Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY()+1],0);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -88,7 +92,7 @@ public class STOMPMessagesHandler {
                     }
                 }
             //si es fantasma
-            } else if(matriz[j.getX()][j.getY()].equals("b")) {
+            } else if(matriz[j.getX()][j.getY()].equals("b") || matriz[j.getX()][j.getY()].equals("a") || matriz[j.getX()][j.getY()].equals("c") || matriz[j.getX()][j.getY()].equals("d")  ) {
                 //abajo
                 if (j.getK() == 40) {
                     if (!(matriz[j.getX() + 1][j.getY()]).equals("3")) {
@@ -97,7 +101,7 @@ public class STOMPMessagesHandler {
                         matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
                         
-                        Elemento e = new Elemento(j.getX() + 1, j.getY(), "b",temp);
+                        Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX()+1][j.getY()],temp);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()),0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -109,7 +113,7 @@ public class STOMPMessagesHandler {
                         matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-                        Elemento e = new Elemento(j.getX(), j.getY() - 1, "b",temp);
+                        Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY()-1],temp);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()),0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -121,7 +125,7 @@ public class STOMPMessagesHandler {
                         matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-                        Elemento e = new Elemento(j.getX() - 1, j.getY(), "b",temp);
+                        Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX()-1][j.getY()],temp);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()),0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -133,7 +137,7 @@ public class STOMPMessagesHandler {
                         matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-                        Elemento e = new Elemento(j.getX(), j.getY() + 1, "b",temp);
+                        Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY()+1],temp);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()),0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
