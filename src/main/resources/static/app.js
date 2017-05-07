@@ -40,22 +40,22 @@ function cargarSala(){
                         } else if (tablero[i][j] === "A") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new pacman(20, 20, "https://macek.github.io/google_pacman/src/pacman10-hp-sprite-2.png", j * 20, i * 20, "image");
+                            var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "B") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new pacman(20, 20, "https://macek.github.io/google_pacman/src/pacman10-hp-sprite-2.png", j * 20, i * 20, "image");
+                            var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "C") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new pacman(20, 20, "https://macek.github.io/google_pacman/src/pacman10-hp-sprite-2.png", j * 20, i * 20, "image");
+                            var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "D") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new pacman(20, 20, "https://macek.github.io/google_pacman/src/pacman10-hp-sprite-2.png", j * 20, i * 20, "image");
+                            var myObstacle = new pacman(20, 20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "a") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
@@ -119,7 +119,7 @@ function connect() {
             var tablero = JSON.parse(data.body);
             for (i = 0; i < tablero.length; i++) {
                 if (tablero[i].key ==="A"){
-                    var myObstacle = new pacman(20,20, "https://macek.github.io/google_pacman/src/pacman10-hp-sprite-2.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -127,7 +127,7 @@ function connect() {
                     myObstacle.update();
                 }
                 else if (tablero[i].key ==="B"){
-                    var myObstacle = new pacman(20,20, "https://macek.github.io/google_pacman/src/pacman10-hp-sprite-2.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -135,7 +135,7 @@ function connect() {
                     myObstacle.update();
                 }
                 else if (tablero[i].key ==="C"){
-                    var myObstacle = new pacman(20,20, "https://macek.github.io/google_pacman/src/pacman10-hp-sprite-2.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -143,7 +143,7 @@ function connect() {
                     myObstacle.update();
                 }
                 else if (tablero[i].key ==="D"){
-                    var myObstacle = new pacman(20,20, "https://macek.github.io/google_pacman/src/pacman10-hp-sprite-2.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20, "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Pacman.svg/2000px-Pacman.svg.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
