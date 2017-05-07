@@ -19,15 +19,9 @@ public class STOMPMessagesHandler {
 
     @Autowired
     SimpMessagingTemplate msgt;
-    String[][] matriz ;
-    int puntos;
-
-    @MessageMapping("/JugarSala")
-    public void prueba() {
-        msgt.convertAndSend("/topic/JugarSala", "hola");
-        matriz= LeerFichero.muestraContenido();
-        puntos=LeerFichero.puntos;
-    }
+    String[][] matriz =LeerFichero.muestraContenido();
+    int puntos= LeerFichero.puntos;
+    
 
     @MessageMapping("/mover")
     public void mover(Jugador j) {

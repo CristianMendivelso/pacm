@@ -7,6 +7,7 @@ var sala;
 
 function atacante() {
     if (flag === 0) {
+        flag = 1;
         var f=new Date();
         cad=f.getHours()+":"+f.getMinutes()+":"+f.getSeconds();
         identificador=username+cad;
@@ -18,7 +19,6 @@ function atacante() {
         }).then(
                 function () {
                     alert("Competitor registered successfully!");
-                    flag = 1;
                     sessionStorage.setItem('identificador', identificador);
                     stompClient.subscribe('/topic/Jugar', function (data) {
                         document.location.href = "jugar.html";
@@ -28,6 +28,7 @@ function atacante() {
         ,
                 function (err) {
                     alert("err:" + err.responseText);
+                    flag = 0;
                 }
 
         );
@@ -38,6 +39,7 @@ function atacante() {
 
 function protector() {
     if (flag === 0) {
+        flag = 1;
         var f=new Date();
         cad=f.getHours()+":"+f.getMinutes()+":"+f.getSeconds();
         identificador=username+cad;
@@ -48,16 +50,18 @@ function protector() {
             contentType: "application/json"
         }).then(
                 function () {
+                    
                     alert("Competitor registered successfully!");
                     stompClient.subscribe('/topic/Jugar', function (data) {
                         document.location.href = "jugar.html";
                     });
                     sessionStorage.setItem('identificador', identificador);
-                    flag = 1;
+                    
                 }
         ,
                 function (err) {
                     alert("err:" + err.responseText);
+                    flag = 0;
                 }
 
         );
@@ -80,8 +84,10 @@ function connect() {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/mostrarJugadores', function (data) {
             gana = JSON.parse(data.body);
-            if (gana[0].length===2 && gana[1].length===2){
-                location.reload();
+            if (flag===0){
+                if (gana[0].length===2 && gana[1].length===2){
+                    location.reload();
+            }
             }
             prot = gana[0];
             $("#atc").empty();

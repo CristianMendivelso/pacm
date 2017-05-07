@@ -5,16 +5,8 @@ var myposy = null;
 var ctx=null;
 var mymem=null;
 
-
-function connect() {
-    var socket = new SockJS('/stompendpoint');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-
-        stompClient.subscribe('/topic/JugarSala', function (data) {
-
-            $.get("/salas/tablero", function (data) {
+function cargarSala(){
+    $.get("/salas/tablero", function (data) {
                 var tablero = data[0];
                 
                 for (i = 0; i < tablero.length; i++) {
@@ -90,7 +82,36 @@ function connect() {
                 
             }
             );
-        });
+}
+
+
+function connect() {
+    var socket = new SockJS('/stompendpoint');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        var $worked = $("#worked");
+
+    function update() {
+        var myTime = $worked.html();
+        var ss = myTime.split(":");
+        var dt = new Date();
+        dt.setHours(0);
+        dt.setMinutes(ss[0]);
+        dt.setSeconds(ss[1]);
+
+        var dt2 = new Date(dt.valueOf() - 1000);
+        var temp = dt2.toTimeString().split(" ");
+        var ts = temp[0].split(":");
+
+        $worked.html(ts[1]+":"+ts[2]);
+        if (ts[1]==="00" && ts[2]==="00"){}
+        else{
+        setTimeout(update, 1000);}
+    }
+
+    setTimeout(update, 1000);
+        
         stompClient.subscribe('/topic/actualizarJuego', function (data) {
             var tablero = JSON.parse(data.body);
             for (i = 0; i < tablero.length; i++) {
@@ -198,9 +219,15 @@ function connect() {
             ctx.fillStyle = "white";
             ctx.fillText("El Equipo Ganador Es El",110,200);
             ctx.fillText(gana,110,250);
+            
             disconnect();
          
         });
+        cargarSala();
+        cargarSala();
+        cargarSala();
+        
+        
 
     });
 }
@@ -282,21 +309,6 @@ function pacman(width, height, color, x, y, type) {
         this.x += this.speedX;
         this.y += this.speedY;
     }
-    this.crashRight = function (otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var crashleft = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crashleft = false;
-        }
-        return crashleft;
-    }
 }
 
 
@@ -319,24 +331,6 @@ function bloque(width, height, color, x, y) {
         //var ctx = canvas.getContext('2d');
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
-
-
-
-    }
-    this.crashRight = function (otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var crashleft = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crashleft = false;
-        }
-        return crashleft;
     }
 }
 
@@ -356,35 +350,8 @@ function circle(radio, width, height, color, x, y) {
 
 
     }
-    this.crashRight = function (otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var crashleft = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crashleft = false;
-        }
-        return crashleft;
-    }
 }
 
-
-
-
-
-
-
-
-
-function create() {
-    stompClient.send("/app/JugarSala", {});
-
-}
 
 function disconnect() {
     if (stompClient != null) {
@@ -392,21 +359,6 @@ function disconnect() {
     }
     //setConnected(false);
     console.log("Disconnected");
-}
-
-function controlarpacman() {
-    myplayer = "B";
-    myposx = 1;
-    myposy = 1;
-    mymem=2;
-}
-
-
-function controlarfantasma() {
-    myplayer = "b";
-    myposx = 1;
-    myposy = 34;
-    mymem= 1;
 }
 
 function moverPersonaje(key) {
@@ -427,10 +379,12 @@ $(document).ready(
                 key = e.keyCode;
                 moverPersonaje(key);
                 console.log(key);
-            })
+            });
             window.addEventListener('keyup', function (e) {
                 key = false;
-            })
+            });
+            
+            
             
             $.get("/salas/"+sessionStorage.getItem('sala')+"/"+sessionStorage.getItem('identificador'), function (data) {
                      myplayer=data;
@@ -473,11 +427,13 @@ $(document).ready(
                              myposy = 12;
                          }
                      }
+                     
             });
+            
+            
 
         }
 );
-
 
 
 

@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.pacm.controllers;
 
+import edu.eci.arsw.pacm.model.HiloTiempos;
 import edu.eci.arsw.pacm.model.Player;
 import edu.eci.arsw.pacm.services.PacmServices;
 import edu.eci.arsw.pacm.services.ServicesException;
@@ -38,7 +39,7 @@ public class PacmRESTController {
     
     @RequestMapping(path = "/{salanum}/atacantes",method = RequestMethod.PUT)
     public ResponseEntity<?> agregarAtacante(@PathVariable(name = "salanum") String salanum,@RequestBody Player p) throws ServicesException {
-        synchronized(this){
+        synchronized(services){
         try {
             if (services.getAtacantes(Integer.parseInt(salanum)).size()<2){
                 services.registrarJugadorAtacante(Integer.parseInt(salanum), p);
@@ -47,11 +48,12 @@ public class PacmRESTController {
                  List <Player > protectores=services.getProtectores(Integer.parseInt(salanum));
                 temp.add(atacantes);
                 temp.add(protectores);
-                msgt.convertAndSend("/topic/mostrarJugadores",temp);
+                
                 if (protectores.size()==2 && atacantes.size()==2){
-                    msgt.convertAndSend("/topic/Jugar",p.getNombre());
+                    new HiloTiempos(Integer.parseInt(salanum),p.getNombre(),msgt).start();
                     services.setSalaDisponible(services.getSalaDisponible()+1);
                 }
+                msgt.convertAndSend("/topic/mostrarJugadores",temp);
             }
             else{
                 throw new ServicesException("No se puede elegir el equipo atacante porque está lleno");
@@ -67,7 +69,7 @@ public class PacmRESTController {
     
     @RequestMapping(path = "/{salanum}/protectores",method = RequestMethod.PUT)
     public ResponseEntity<?> agregarProtector(@PathVariable(name = "salanum") String salanum,@RequestBody Player p) throws ServicesException {
-        synchronized(this){
+        synchronized(services){
         try {
             if (services.getProtectores(Integer.parseInt(salanum)).size()<2){
                 services.registrarJugadorProtector(Integer.parseInt(salanum), p);
@@ -76,11 +78,12 @@ public class PacmRESTController {
                  List <Player > protectores=services.getProtectores(Integer.parseInt(salanum));
                 temp.add(atacantes);
                 temp.add(protectores);
-                msgt.convertAndSend("/topic/mostrarJugadores",temp);
+                
                 if (protectores.size()==2 && atacantes.size()==2){
-                    msgt.convertAndSend("/topic/Jugar",p.getNombre());
+                    new HiloTiempos(Integer.parseInt(salanum),p.getNombre(),msgt).start();
                     services.setSalaDisponible(services.getSalaDisponible()+1);
                 }
+                msgt.convertAndSend("/topic/mostrarJugadores",temp);
             }
              else{
                 throw new ServicesException("No se puede elegir el equipo protector porque está lleno");
@@ -142,7 +145,7 @@ public class PacmRESTController {
     
     @RequestMapping(path = "/salaDisponible",method = RequestMethod.GET)
     public ResponseEntity<?> getSalaDisponible() {
-        synchronized(msgt){
+        synchronized(services){
         try {
             return new ResponseEntity<>(String.valueOf(services.getSalaDisponible()),HttpStatus.ACCEPTED);
         } catch (ServicesException ex) {
