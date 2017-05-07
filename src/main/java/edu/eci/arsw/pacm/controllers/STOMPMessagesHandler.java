@@ -180,7 +180,7 @@ public class STOMPMessagesHandler {
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()),0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
-                        msgt.convertAndSend("/topic/actualizarJuego"+String.valueOf(idsala), actualizaciones);
+                        msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
                     }
                 } else if (j.getK() == 39) {
                     if (!(matriz[j.getX()][j.getY() + 1]).equals("3") && !(matriz[j.getX()][j.getY() + 1]).equals("a") && !(matriz[j.getX()][j.getY() + 1]).equals("b") && !(matriz[j.getX()][j.getY() + 1]).equals("c") && !(matriz[j.getX()][j.getY() + 1]).equals("d")) {
@@ -197,7 +197,7 @@ public class STOMPMessagesHandler {
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()),0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
-                        msgt.convertAndSend("/topic/actualizarJuego"+String.valueOf(idsala), actualizaciones);
+                        msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
                     }
                 }
             }
