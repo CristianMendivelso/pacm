@@ -20,7 +20,7 @@ function atacante() {
                 function () {
                     alert("Competitor registered successfully!");
                     sessionStorage.setItem('identificador', identificador);
-                    stompClient.subscribe('/topic/Jugar', function (data) {
+                    stompClient.subscribe('/topic/Jugar.'+sessionStorage.getItem('sala'), function (data) {
                         document.location.href = "jugar.html";
                         
                     });
@@ -52,7 +52,7 @@ function protector() {
                 function () {
                     
                     alert("Competitor registered successfully!");
-                    stompClient.subscribe('/topic/Jugar', function (data) {
+                    stompClient.subscribe('/topic/Jugar.'+sessionStorage.getItem('sala'), function (data) {
                         document.location.href = "jugar.html";
                     });
                     sessionStorage.setItem('identificador', identificador);

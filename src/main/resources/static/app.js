@@ -112,7 +112,7 @@ function connect() {
 
     setTimeout(update, 1000);
         
-        stompClient.subscribe('/topic/actualizarJuego', function (data) {
+        stompClient.subscribe('/topic/actualizarJuego.'+sessionStorage.getItem('sala'), function (data) {
             var tablero = JSON.parse(data.body);
             for (i = 0; i < tablero.length; i++) {
                 if (tablero[i].key ==="A"){
@@ -206,14 +206,14 @@ function connect() {
 
         });
         
-        stompClient.subscribe('/topic/puntosRestantes', function (data) {
+        stompClient.subscribe('/topic/puntosRestantes.'+sessionStorage.getItem('sala'), function (data) {
             var puntos=JSON.parse(data.body);
             $("#puntosrestantes").empty();
             $("#puntosrestantes").append("POINTS LEFT: " + puntos);
          
         });
         
-        stompClient.subscribe('/topic/findejuego', function (data) {
+        stompClient.subscribe('/topic/findejuego.'+sessionStorage.getItem('sala'), function (data) {
             var gana=data.body;
             ctx.font = "bold 34px sans-serif";
             ctx.fillStyle = "white";
@@ -363,7 +363,7 @@ function disconnect() {
 
 function moverPersonaje(key) {
     if (36 < key && key < 41) {
-        stompClient.send("/app/mover",{}, JSON.stringify( {x: myposx, y: myposy, k: key, mem:mymem}));
+        stompClient.send("/app/mover."+sessionStorage.getItem('sala'),{}, JSON.stringify( {x: myposx, y: myposy, k: key, mem:mymem}));
     }
 
 }
