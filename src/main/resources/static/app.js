@@ -8,7 +8,7 @@ var shift = 0;
 var currentFrame = 0;
 var totalFrames = 2;
 var imgs="http://notfake.me/img/images/5JArH.png";
-var ky=0;
+var ky=null;
 /**
  * 
  * Verifica que se ínte en el sentido de la tecla
