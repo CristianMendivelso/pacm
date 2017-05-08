@@ -9,6 +9,10 @@ var currentFrame = 0;
 var totalFrames = 2;
 var imgs="http://notfake.me/img/images/5JArH.png";
 var ky=null;
+/**
+ * 
+ * Verifica que se ínte en el sentido de la tecla
+ */
 function selectImage(){
 	if(ky===37){
 		imgs="http://notfake.me/img/images/HIp2n.png";
