@@ -9,6 +9,7 @@ var currentFrame = 0;
 var totalFrames = 2;
 var imgs=null;
 var ky=null;
+var ghost="images/fantasma.png"
 /**
  * 
  * Verifica que se ínte en el sentido de la tecla
@@ -76,22 +77,22 @@ function cargarSala(){
                         } else if (tablero[i][j] === "a") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
+                            var myObstacle = new ghost(20, 20, ghost, j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "b") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
+                            var myObstacle = new ghost(20, 20, ghost, j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "c") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
+                            var myObstacle = new ghost(20, 20, ghost, j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "d") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new ghost(20, 20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png", j * 20, i * 20, "image");
+                            var myObstacle = new ghost(20, 20, ghost, j * 20, i * 20, "image");
                             myObstacle.update();
                         }
 
@@ -168,7 +169,7 @@ function connect() {
                     myObstacle.update();
                 }
                 else if (tablero[i].key ==="a"){
-                    var myObstacle = new ghost(20,20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, ghost,20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -177,7 +178,7 @@ function connect() {
                     myObstacle.update();
                 }
                 else if (tablero[i].key ==="b"){
-                    var myObstacle = new ghost(20,20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, ghost,20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -186,7 +187,7 @@ function connect() {
                     myObstacle.update();
                 }
                 else if (tablero[i].key ==="c"){
-                    var myObstacle = new ghost(20,20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, ghost,20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -195,7 +196,7 @@ function connect() {
                     myObstacle.update();
                 }
                 else if (tablero[i].key ==="d"){
-                    var myObstacle = new ghost(20,20, "https://static.giantbomb.com/uploads/scale_small/8/87790/2469743-orange.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, ghost,20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
