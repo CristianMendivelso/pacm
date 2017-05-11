@@ -7,7 +7,7 @@ var mymem=null;
 var shift = 0;
 var currentFrame = 0;
 var totalFrames = 2;
-var imgs="http://notfake.me/img/images/5JArH.png";
+var imgs=null;
 var ky=null;
 /**
  * 
@@ -15,13 +15,13 @@ var ky=null;
  */
 function selectImage(){
 	if(ky===37){
-		imgs="http://notfake.me/img/images/HIp2n.png";
+		imgs="images/left.png";
 	}else if(ky===38){
-		imgs="http://notfake.me/img/images/OaWx.png";
+		imgs="images/up.png";
 	}else if(ky===39){
-		imgs="http://notfake.me/img/images/5JArH.png";
+		imgs="images/right.png";
 	}else if(ky===40){
-		imgs="http://notfake.me/img/images/WX3EL.png";
+		imgs="images/down.png";
 	}
 }
 function cargarSala(){
@@ -56,22 +56,22 @@ function cargarSala(){
                         } else if (tablero[i][j] === "A") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new pacman(20, 20, imgs, j * 20, i * 20, "image");
+                            var myObstacle = new pacman(20, 20, "images/right.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "B") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new pacman(20, 20, imgs, j * 20, i * 20, "image");
+                            var myObstacle = new pacman(20, 20, "images/right.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "C") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new pacman(20, 20, imgs, j * 20, i * 20, "image");
+                            var myObstacle = new pacman(20, 20, "images/left.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "D") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
                             myObstacle.update();
-                            var myObstacle = new pacman(20, 20, imgs, j * 20, i * 20, "image");
+                            var myObstacle = new pacman(20, 20, "images/left.png", j * 20, i * 20, "image");
                             myObstacle.update();
                         } else if (tablero[i][j] === "a") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
