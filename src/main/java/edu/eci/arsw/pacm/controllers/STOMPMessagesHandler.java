@@ -51,7 +51,9 @@ public class STOMPMessagesHandler {
                             actualizaciones.add(e);
                             msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
                             
-                        }else{
+                            
+                            //comer puntos
+                        }else if ((matriz[j.getX() + 1][j.getY()]).equals("1")){
                             matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
                             matriz[j.getX()][j.getY()] = "0";
                             Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX()+1][j.getY()],0);
@@ -62,18 +64,48 @@ public class STOMPMessagesHandler {
                             msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
                             puntos-=1;
                             msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
+                            
+                            
+                            //comer puntos grandes
+                        }else if ((matriz[j.getX() + 1][j.getY()]).equals("2")){
+                            matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX()+1][j.getY()],0);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+
+                            msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
+                            puntos-=1;
+                            msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
+                            
+                            
+                            //no comer nada
+                        }else{
+                            matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX()+1][j.getY()],0);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+
+                            msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
+                            msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
                         }
                         
                     }
                 } else if (j.getK() == 37) {
                     if (!(matriz[j.getX()][j.getY() - 1]).equals("3") && !(matriz[j.getX()][j.getY() - 1]).equals("A")&& !(matriz[j.getX()][j.getY() - 1]).equals("B") && !(matriz[j.getX()][j.getY() - 1]).equals("C") && !(matriz[j.getX()][j.getY() - 1]).equals("D")) {
                         if ((matriz[j.getX()][j.getY() - 1]).equals("a") || (matriz[j.getX()][j.getY() - 1]).equals("b")  || (matriz[j.getX()][j.getY() - 1]).equals("c")  || (matriz[j.getX()][j.getY() - 1]).equals("d")){
-                            //
+                            //comer fantasmas
                             matriz[j.getX()][j.getY()] = "0";
                             Elemento e = new Elemento(j.getX(), j.getY(), "0",0);
                             actualizaciones.add(e);
                             msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
-                        }else{
+                            
+                            
+                            //comer puntos
+                        }else if ((matriz[j.getX()][j.getY() - 1]).equals("1")){     
                             matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
                             matriz[j.getX()][j.getY()] = "0";
                             Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY()-1],0);
@@ -83,17 +115,45 @@ public class STOMPMessagesHandler {
                             msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
                             puntos-=1;
                             msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
+                            
+                            
+                            //comer puntos grandes
+                        }else if ((matriz[j.getX()][j.getY() - 1]).equals("2")){     
+                            matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY()-1],0);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
+                            puntos-=1;
+                            msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
+                            
+                            
+                            //no comer nada
+                        }else{
+                            matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY()-1],0);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
+                            msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
                         }
                     }
                 } else if (j.getK() == 38) {
                     if (!(matriz[j.getX() - 1][j.getY()]).equals("3") && !(matriz[j.getX() - 1][j.getY()]).equals("A") && !(matriz[j.getX() - 1][j.getY()]).equals("B") && !(matriz[j.getX() - 1][j.getY()]).equals("C") && !(matriz[j.getX() - 1][j.getY()]).equals("D")) {
                         if ((matriz[j.getX() - 1][j.getY()]).equals("a") || (matriz[j.getX() - 1][j.getY()]).equals("b") || (matriz[j.getX() - 1][j.getY()]).equals("c") || (matriz[j.getX() - 1][j.getY()]).equals("d")){
-                            //
+                            //comer fantasmas
                             matriz[j.getX()][j.getY()] = "0";
                             Elemento e = new Elemento(j.getX(), j.getY(), "0",0);
                             actualizaciones.add(e);
                             msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
-                        }else{
+                            
+                            
+                            //comer puntos
+                        }else if ((matriz[j.getX() - 1][j.getY()]).equals("1")){
                             matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
                             matriz[j.getX()][j.getY()] = "0";
                             Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX()-1][j.getY()],0);
@@ -103,18 +163,50 @@ public class STOMPMessagesHandler {
                             msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
                             puntos-=1;
                             msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
+                         
+                            
+                            //comper puntos grandes
+                        }else if ((matriz[j.getX() - 1][j.getY()]).equals("1")){
+                            matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX()-1][j.getY()],0);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
+                            puntos-=1;
+                            msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
+                         
+                            
+                            //no comer nada
+                        }else{
+                            matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX()-1][j.getY()],0);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
+                            msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
 
                         }
                     }
+                
+                    
+                    
+                    //
                 } else if (j.getK() == 39) {
                     if (!(matriz[j.getX()][j.getY() + 1]).equals("3") && !(matriz[j.getX()][j.getY() + 1]).equals("A") && !(matriz[j.getX()][j.getY() + 1]).equals("B") && !(matriz[j.getX()][j.getY() + 1]).equals("C") && !(matriz[j.getX()][j.getY() + 1]).equals("D")) {
                         if ((matriz[j.getX()][j.getY() + 1]).equals("a") || (matriz[j.getX()][j.getY() + 1]).equals("b") || (matriz[j.getX()][j.getY() + 1]).equals("c") || (matriz[j.getX()][j.getY() + 1]).equals("d")){
-                            //
+                            //comer fantasmas 
                             matriz[j.getX()][j.getY()] = "0";
                             Elemento e = new Elemento(j.getX(), j.getY(), "0",0);
                             actualizaciones.add(e);
                             msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
-                        }else{
+                            
+                            
+                            //comer puntos
+                        }else if ((matriz[j.getX()][j.getY() + 1]).equals("1")){
                             matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
                             matriz[j.getX()][j.getY()] = "0";
                             Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY()+1],0);
@@ -123,6 +215,31 @@ public class STOMPMessagesHandler {
                             actualizaciones.add(e2);
                             msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
                             puntos-=1;
+                            msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
+                            
+                            
+                            //comer puntos grandes
+                        }else if ((matriz[j.getX()][j.getY() + 1]).equals("2")){
+                            matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY()+1],0);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
+                            puntos-=1;
+                            msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
+                            
+                            
+                            //no comer nada
+                        }else{
+                            matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY()+1],0);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0",0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            msgt.convertAndSend("/topic/actualizarJuego."+String.valueOf(idsala), actualizaciones);
                             msgt.convertAndSend("/topic/puntosRestantes."+String.valueOf(idsala), puntos);
                         }
                     }
