@@ -9,7 +9,9 @@ var currentFrame = 0;
 var totalFrames = 2;
 var imgs=null;
 var ky=null;
-var ghost="images/fantasma.png"
+var fantasma="images/naranja.png";
+
+
 /**
  * 
  * Verifica que se ínte en el sentido de la tecla
@@ -33,67 +35,63 @@ function cargarSala(){
                     for (j = 0; j < tablero[i].length; j++) {
                         if (tablero[i][j] === "3") {
                             var myObstacle = new bloque(20, 20, "blue", j * 20, i * 20);
-                            myObstacle.update();
+                            
 
                         }
                         else if (tablero[i][j] === "0") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
+                            
                         }
                         
                         else if (tablero[i][j] === "1") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
+                            
                             var myObstacle = new circle(3, 20, 20, "white", (j * 20) + 10, (i * 20) + 10);
-                            myObstacle.update();
+                            
                             
 
                         } else if (tablero[i][j] === "2") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
+                            
                             var myObstacle = new circle(5, 20, 20, "white", (j * 20) + 10, (i * 20) + 10);
-                            myObstacle.update();
+                            
 
                         } else if (tablero[i][j] === "A") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
-                            var myObstacle = new pacman(20, 20, "images/right.png", j * 20, i * 20, "image");
-                            myObstacle.update();
+                            
+                            var myObstacle = new ipacman(20, 20, "images/rightA.png", j * 20, i * 20, "image");
+                            
                         } else if (tablero[i][j] === "B") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
-                            var myObstacle = new pacman(20, 20, "images/right.png", j * 20, i * 20, "image");
-                            myObstacle.update();
+                            
+                            var myObstacle = new ipacman(20, 20,"images/rightB.png", j * 20, i * 20, "image");
+                            
                         } else if (tablero[i][j] === "C") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
-                            var myObstacle = new pacman(20, 20, "images/left.png", j * 20, i * 20, "image");
-                            myObstacle.update();
+                            
+                            var myObstacle = new ipacman(20, 20,"images/rightC.png", j * 20, i * 20, "image");
+                            
                         } else if (tablero[i][j] === "D") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
-                            var myObstacle = new pacman(20, 20, "images/left.png", j * 20, i * 20, "image");
-                            myObstacle.update();
+                            
+                            var myObstacle = new ipacman(20, 20,"images/rightD.png", j * 20, i * 20, "image");
+                            
                         } else if (tablero[i][j] === "a") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
-                            var myObstacle = new ghost(20, 20, ghost, j * 20, i * 20, "image");
-                            myObstacle.update();
+                            
+                            var myObstacle = new ighost(20, 20, "images/fana.png", j * 20, i * 20, "image");
                         } else if (tablero[i][j] === "b") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
-                            var myObstacle = new ghost(20, 20, ghost, j * 20, i * 20, "image");
-                            myObstacle.update();
+                            
+                            var myObstacle = new ighost(20, 20, "images/fanb.png", j * 20, i * 20, "image");
                         } else if (tablero[i][j] === "c") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
-                            var myObstacle = new ghost(20, 20, ghost, j * 20, i * 20, "image");
-                            myObstacle.update();
+                            
+                            var myObstacle = new ighost(20, 20, "images/fanc.png", j * 20, i * 20, "image");
                         } else if (tablero[i][j] === "d") {
                             var myObstacle = new bloque(20, 20, "black", j * 20, i * 20);
-                            myObstacle.update();
-                            var myObstacle = new ghost(20, 20, ghost, j * 20, i * 20, "image");
-                            myObstacle.update();
+                            
+                            var myObstacle = new ighost(20, 20, "images/fand.png", j * 20, i * 20, "image");
                         }
 
                     }
@@ -134,93 +132,93 @@ function connect() {
         
         stompClient.subscribe('/topic/actualizarJuego.'+sessionStorage.getItem('sala'), function (data) {
             var tablero = JSON.parse(data.body);
-			selectImage();
+            console.log(tablero.length);
             for (i = 0; i < tablero.length; i++) {
                 if (tablero[i].key ==="A"){
-                    var myObstacle = new pacman(20,20, imgs,20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20, "images/rightA.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
                     }
-                    myObstacle.update();
+                    
                 }
                 else if (tablero[i].key ==="B"){
-                    var myObstacle = new pacman(20,20, imgs,20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20, "images/rightB.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
                     }
-                    myObstacle.update();
+                    
                 }
                 else if (tablero[i].key ==="C"){
-                    var myObstacle = new pacman(20,20, imgs,20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20, "images/rightC.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
                     }
-                    myObstacle.update();
+                    
                 }
                 else if (tablero[i].key ==="D"){
-                    var myObstacle = new pacman(20,20, imgs,20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20, "images/rightD.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
                     }
-                    myObstacle.update();
+                    
                 }
                 else if (tablero[i].key ==="a"){
-                    var myObstacle = new ghost(20,20, ghost,20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, "images/fana.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
                         mymem=tablero[i].mem;
                     }
-                    myObstacle.update();
+                    
                 }
                 else if (tablero[i].key ==="b"){
-                    var myObstacle = new ghost(20,20, ghost,20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, "images/fanb.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
                         mymem=tablero[i].mem;
                     }
-                    myObstacle.update();
+                    
                 }
                 else if (tablero[i].key ==="c"){
-                    var myObstacle = new ghost(20,20, ghost,20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, "images/fanc.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
                         mymem=tablero[i].mem;
                     }
-                    myObstacle.update();
+                    
                 }
                 else if (tablero[i].key ==="d"){
-                    var myObstacle = new ghost(20,20, ghost,20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, "images/fand.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
                         mymem=tablero[i].mem;
                     }
-                    myObstacle.update();
+                    
                 }
                 else if (tablero[i].key ==="0"){
                     var myObstacle = new bloque(20, 20, "black",20*tablero[i].y, 20*tablero[i].x);
-                    myObstacle.update();
+                    
                 }
                 else if (tablero[i].key ==="1"){
                     var myObstacle = new bloque(20, 20, "black",20*tablero[i].y, 20*tablero[i].x);
-                    myObstacle.update();
+                    
                     var myObstacle = new circle(3, 20, 20, "white", (20*tablero[i].y) + 10, (20*tablero[i].x) + 10);
-                    myObstacle.update();
+                    
                     
                 }
                 
                 else if (tablero[i].key ==="2"){
                     var myObstacle = new bloque(20, 20, "black",20*tablero[i].y, 20*tablero[i].x);
-                    myObstacle.update();
+                    
                     var myObstacle = new circle(5, 20, 20, "white", (20*tablero[i].y) + 10, (20*tablero[i].x) + 10);
-                    myObstacle.update();
+                    
                     
                 }
             }
@@ -245,8 +243,7 @@ function connect() {
          
         });
         cargarSala();
-        cargarSala();
-        cargarSala();
+        
         
         
 
@@ -254,97 +251,41 @@ function connect() {
 }
 
 function ghost(width, height, color, x, y, type) {
-    this.type = type;
-    if (type === "image") {
-        this.image = new Image();
-        this.image.src = color;
-    }
-    this.width = width;
-    this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;
-    this.update = function () {
-        //var canvas = document.getElementById('cnv');
-        //var ctx = canvas.getContext('2d');
-        if (type === "image") {
-            ctx.drawImage(this.image,
-                    this.x,
-                    this.y,
-                    this.width, this.height);
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
-    }
-    this.newPos = function () {
-        this.x += this.speedX;
-        this.y += this.speedY;
-    }
-    this.crashRight = function (otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var crashleft = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crashleft = false;
-        }
-        return crashleft;
-    }
+    var image = new Image();
+    image.src = color;
+    //image.onload = function(){
+        ctx.drawImage(image,x,y,width,height);
+    //};
+}
+
+function ighost(width, height, color, x, y, type) {
+    var image = new Image();
+    image.src = color;
+    image.onload = function(){
+        ctx.drawImage(image,x,y,width,height);
+    };
 }
 
 
+function ipacman(width, height, color, x, y, type) {
+     
+    var image = new Image();
+    image.src = color;
+    image.onload = function(){
+        ctx.drawImage(image,x,y,width,height);
+    };
+    
+}
+
 
 function pacman(width, height, color, x, y, type) {
-    this.type = type;
-    if (type === "image") {
-        this.image = new Image();
-        this.image.src = color;
-    }
-	
-    this.width = width;
-    this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;
-    this.update = function () {
-        //var canvas = document.getElementById('cnv');
-        //var ctx = canvas.getContext('2d');
-        if (type === "image") {
-			
-			ctx.clearRect(this.x,this.y,this.width,this.height);
-            ctx.drawImage(this.image,
-                    this.x,
-                    this.y,
-                    this.width, this.height);
-			shift += this.width + 1;
- 
-  /*
-    Start at the beginning once you've reached the
-    end of your sprite!
-  */
-		  if (currentFrame == totalFrames) {
-			shift = 0;
-			currentFrame = 0;
-		  }
- 
-  		currentFrame++;
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
-    }
-    this.newPos = function () {
-        this.x += this.speedX;
-        this.y += this.speedY;
-    }
+     
+    var image = new Image();
+    image.src = color;
+    //image.onload = function(){
+        ctx.drawImage(image,x,y,width,height);
+    //};
+    
 }
 
 
@@ -356,36 +297,15 @@ function isUpperCase(str) {
 
 
 function bloque(width, height, color, x, y) {
-    this.width = width;
-    this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.x = x;
-    this.y = y;
-    this.update = function () {
-        //var canvas = document.getElementById('cnv');
-        //var ctx = canvas.getContext('2d');
         ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
+        ctx.fillRect(x, y, width, height);
 }
 
 function circle(radio, width, height, color, x, y) {
-    this.radio = radio;
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-    this.update = function () {
-
         ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, radio, 0, 2 * Math.PI);
+        ctx.arc(x, y, radio, 0, 2 * Math.PI);
         ctx.fill();
-
-
-
-    }
 }
 
 

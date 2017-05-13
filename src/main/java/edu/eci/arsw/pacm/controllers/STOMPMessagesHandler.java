@@ -26,7 +26,6 @@ public class STOMPMessagesHandler {
 
     private final ConcurrentHashMap<Integer, Sala> salasMatrices=new ConcurrentHashMap<>();
     
-    //PENDIENTE DE ADECUAR A VARIAS SALAS
 
     @MessageMapping("/mover.{idsala}")
     public void mover(@DestinationVariable int idsala,Jugador j) {
