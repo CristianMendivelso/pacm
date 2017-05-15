@@ -20,7 +20,16 @@ public class Teams {
     private CopyOnWriteArrayList<Player> protectores = new CopyOnWriteArrayList();
     private CopyOnWriteArrayList<Player> atacantes = new CopyOnWriteArrayList();
     private HashMap<String, String> identificadores = new HashMap<>();
+    private CopyOnWriteArrayList<Info> informacion = new CopyOnWriteArrayList();
+    
+    public CopyOnWriteArrayList<Info> getInformacion() {
+        return informacion;
+    }
 
+    public void setInformacion(Info informacion) {
+        this.informacion.add(informacion);
+    }
+    
     public void setIdentificadores(String a, String b) {
         this.identificadores.put(a, b);
         Iterator it = identificadores.entrySet().iterator();
@@ -33,7 +42,8 @@ public class Teams {
     public Teams() {
 
     }
-
+    
+    
     public HashMap<String, String> getIdentificadores() {
         return identificadores;
     }

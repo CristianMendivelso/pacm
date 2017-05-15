@@ -5,10 +5,12 @@
  */
 package edu.eci.arsw.pacm.services;
 
+import edu.eci.arsw.pacm.model.Info;
 import edu.eci.arsw.pacm.model.LeerFichero;
 import edu.eci.arsw.pacm.model.Player;
 import edu.eci.arsw.pacm.model.Teams;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -34,8 +36,11 @@ public class PacmServicesStub implements PacmServices{
     public void registrarJugadorAtacante(int salanum, Player p) throws ServicesException{
         
             CopyOnWriteArrayList tmp = salasData.get(salanum).getAtacantes();
+            
             int a = 65+tmp.size();
             salasData.get(salanum).setIdentificadores(p.getAlias(),Character.toString ((char) a));
+            Info in = new Info(p.getNombre(),Character.toString ((char) a));
+            salasData.get(salanum).setInformacion(in);
             tmp.add(p);
             salasData.get(salanum).setAtacantes(tmp);
         
@@ -47,6 +52,8 @@ public class PacmServicesStub implements PacmServices{
             CopyOnWriteArrayList tmp = salasData.get(salanum).getProtectores();
             int a = 97+tmp.size();
             salasData.get(salanum).setIdentificadores(p.getAlias(),Character.toString ((char) a));
+            Info in = new Info(p.getNombre(),Character.toString ((char) a));
+            salasData.get(salanum).setInformacion(in);
             tmp.add(p);
             salasData.get(salanum).setProtectores(tmp);
         
@@ -87,6 +94,12 @@ public class PacmServicesStub implements PacmServices{
     public String getId(int sala, String user) throws ServicesException {
         return salasData.get(sala).getIdentificadores().get(user);
     }
+
+    @Override
+    public List<Info> getInfo(int sala) throws ServicesException {
+        return salasData.get(sala).getInformacion();
+    }
+
     
     
 }

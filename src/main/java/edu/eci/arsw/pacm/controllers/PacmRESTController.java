@@ -171,4 +171,16 @@ public class PacmRESTController {
     }
     
     
+    @RequestMapping(path = "/{salanum}/info",method = RequestMethod.GET)
+    public ResponseEntity<?> getInfo(@PathVariable(name = "salanum") String salanum) {
+        
+        try {
+            return new ResponseEntity<>(services.getInfo(Integer.parseInt(salanum)),HttpStatus.ACCEPTED);
+        } catch (NumberFormatException | ServicesException ex){
+            Logger.getLogger(PacmRESTController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("/{salanum}/ must be an integer value.",HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    
 }

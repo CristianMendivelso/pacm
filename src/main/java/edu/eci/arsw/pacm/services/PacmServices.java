@@ -5,7 +5,9 @@
  */
 package edu.eci.arsw.pacm.services;
 
+import edu.eci.arsw.pacm.model.Info;
 import edu.eci.arsw.pacm.model.Player;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,4 +32,6 @@ public interface PacmServices {
     public void setSalaDisponible(int sala) throws ServicesException;
     
     public String getId(int sala, String user)  throws ServicesException;
+    
+    public List<Info> getInfo(int sala)  throws ServicesException;
 }
