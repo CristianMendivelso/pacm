@@ -96,39 +96,35 @@ function cargarSala(){
 
                     }
                 }
-                var myObstacle = new ipacman(20, 20, "images/rightA.png", 0 * 20, 26 * 20, "image");
-                var myObstacle = new ipacman(20, 20,"images/rightB.png", 0 * 20, 25 * 20, "image");
-                var myObstacle = new ipacman(20, 20,"images/rightC.png", 9 * 20, 26 * 20, "image");
-                var myObstacle = new ipacman(20, 20,"images/rightD.png", 9 * 20, 25 * 20, "image");
+                var myObstacle = new ipacman(20, 20, "images/rightA.png", 0 * 20, 26 * 20.2, "image");
+                var myObstacle = new ipacman(20, 20,"images/rightB.png", 0 * 20, 25 * 20.2, "image");
+                var myObstacle = new ipacman(20, 20,"images/rightC.png", 9 * 20, 26 * 20.2, "image");
+                var myObstacle = new ipacman(20, 20,"images/rightD.png", 9 * 20, 25 * 20.2, "image");
                 
-                var myObstacle = new ighost(20, 20, "images/fana.png", 18 * 20, 26 * 20, "image");
-                var myObstacle = new ighost(20, 20, "images/fanb.png", 18 * 20, 25 * 20, "image");
-                var myObstacle = new ighost(20, 20, "images/fanc.png", 27 * 20, 26 * 20, "image");
-                var myObstacle = new ighost(20, 20, "images/fand.png", 27 * 20, 25 * 20, "image");
+                var myObstacle = new ighost(20, 20, "images/fana.png", 18 * 20, 26 * 20.2, "image");
+                var myObstacle = new ighost(20, 20, "images/fanb.png", 18 * 20, 25 * 20.2, "image");
+                var myObstacle = new ighost(20, 20, "images/fanc.png", 27 * 20, 26 * 20.2, "image");
+                var myObstacle = new ighost(20, 20, "images/fand.png", 27 * 20, 25 * 20.2, "image");
                 
                 $.get("/salas/"+sessionStorage.getItem('sala')+"/info", function (data) {
                     
-                    GLOBAL=data;
-                    console.log(data[0]);
-                    
-                    for (i=0;i<data.lenght;i++){
-                        alert(data[i]);
+                   
+                    for (i=0;i<data.length;i++){
                         if (data[i].alias==="A"){
-                            ctx.font = "bold 22px sans-serif";
+                            ctx.font = "bold 18px sans-serif";
                             ctx.fillStyle = "white";
                             ctx.fillText(data[i].nombre,20,540);
-                            alert("asd");
                         }
                         else if (data[i].alias==="B"){
-                            ctx.font = "bold 22px sans-serif";
+                            ctx.font = "bold 18px sans-serif";
                             ctx.fillStyle = "white";
-                            ctx.fillText(data[i].nombre, 20, 5200);
+                            ctx.fillText(data[i].nombre, 20, 520);
                         } else if (data[i].alias === "a") {
-                            ctx.font = "bold 22px sans-serif";
+                            ctx.font = "bold 18px sans-serif";
                             ctx.fillStyle = "white";
                             ctx.fillText(data[i].nombre, 380, 540);
                         } else if (data[i].alias === "b") {
-                            ctx.font = "bold 22px sans-serif";
+                            ctx.font = "bold 18px sans-serif";
                             ctx.fillStyle = "white";
                             ctx.fillText(data[i].nombre, 380, 520);
                         }
