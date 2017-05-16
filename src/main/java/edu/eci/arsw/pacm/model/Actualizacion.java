@@ -16,6 +16,7 @@ public class Actualizacion {
     private ArrayList<Elemento> actualizaciones;
     private Boolean cambioDePuntos = false;
     private int puntos;
+    private Boolean comibles = false;
 
     /**
      * @return the actualizaciones
@@ -57,6 +58,20 @@ public class Actualizacion {
      */
     public void setPuntos(int puntos) {
         this.puntos = puntos;
+    }
+
+    /**
+     * @return the comibles
+     */
+    public Boolean getComibles() {
+        return comibles;
+    }
+
+    /**
+     * @param comibles the comibles to set
+     */
+    public void setComibles(Boolean comibles) {
+        this.comibles = comibles;
     }
 
 }

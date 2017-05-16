@@ -28,6 +28,7 @@ public class STOMPMessagesHandler {
     SimpMessagingTemplate msgt;
 
     Logica l = new Logica();
+    Boolean comibles = false;
 
     @MessageMapping("/mover.{idsala}")
     public void mover(@DestinationVariable int idsala, Jugador j) {
@@ -39,6 +40,10 @@ public class STOMPMessagesHandler {
             }
             if (ac.getPuntos()==0){
                msgt.convertAndSend("/topic/findejuego."+String.valueOf(idsala), "EQUIPO ATACANTE"); 
+            }
+            if (!ac.getComibles().equals(comibles)){
+                comibles=ac.getComibles();
+                msgt.convertAndSend("/topic/fantasmasComibles."+String.valueOf(idsala), ac.getComibles()); 
             }
         }
 

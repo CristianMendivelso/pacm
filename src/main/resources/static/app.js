@@ -278,6 +278,11 @@ function connect() {
             disconnect();
          
         });
+        stompClient.subscribe('/topic/fantasmasComibles.'+sessionStorage.getItem('sala'), function (data) {
+            console.log(data);//Variable booleana
+            // cambiar imagen de los fantasmas segun la variable
+        });
+        
         cargarSala();
         
         

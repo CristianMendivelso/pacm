@@ -16,6 +16,7 @@ public class HiloComerFantasmas extends Thread {
 
     int numsala;
     String nombre;
+    private volatile boolean running = true;
 
     public HiloComerFantasmas(int numsala, String nombre) {
         this.numsala = numsala;
@@ -25,13 +26,21 @@ public class HiloComerFantasmas extends Thread {
     public HiloComerFantasmas() {
     }
 
+    public void terminate() {
+        running = false;
+    }
+
     @Override
     public void run() {
-        try {
-            HiloTiempos.sleep(10000);
-            
-        } catch (InterruptedException ex) {
-            Logger.getLogger(HiloTiempos.class.getName()).log(Level.SEVERE, null, ex);
+        while (running) {
+            try {
+                HiloTiempos.sleep(10000);
+                if (running){
+                    Logica.comibles = false;
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(HiloTiempos.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
