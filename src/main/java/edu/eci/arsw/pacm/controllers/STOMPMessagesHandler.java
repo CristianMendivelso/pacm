@@ -29,7 +29,8 @@ public class STOMPMessagesHandler {
 
     Logica l = new Logica();
     Boolean comibles = false;
-
+	// comentario
+	// para re-subir el proyecto
     @MessageMapping("/mover.{idsala}")
     public void mover(@DestinationVariable int idsala, Jugador j) {
         synchronized (l) {
