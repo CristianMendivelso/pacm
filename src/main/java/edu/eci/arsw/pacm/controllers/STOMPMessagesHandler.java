@@ -7,7 +7,6 @@ package edu.eci.arsw.pacm.controllers;
 
 import edu.eci.arsw.pacm.model.Actualizacion;
 import edu.eci.arsw.pacm.model.Elemento;
-import edu.eci.arsw.pacm.model.HiloComerFantasmas;
 import edu.eci.arsw.pacm.model.Jugador;
 import edu.eci.arsw.pacm.model.LeerFichero;
 import edu.eci.arsw.pacm.model.Sala;
@@ -30,12 +29,12 @@ public class STOMPMessagesHandler {
 
     @Autowired
     Logica l;
-    Boolean comibles = false;
+    Object Lock = new Object();
 	// comentario
 	// para re-subir el proyecto
     @MessageMapping("/mover.{idsala}")
     public void mover(@DestinationVariable int idsala, Jugador j) {
-        synchronized (comibles) {
+        synchronized (Lock) {
             Actualizacion ac = l.mover(idsala, j);
             if (ac.getActualizaciones()!=null){
                 msgt.convertAndSend("/topic/actualizarJuego." + String.valueOf(idsala), ac.getActualizaciones());
@@ -45,8 +44,8 @@ public class STOMPMessagesHandler {
                 if (ac.getPuntos()==0){
                    msgt.convertAndSend("/topic/findejuego."+String.valueOf(idsala), "EQUIPO ATACANTE"); 
                 }
-                if (!ac.getComibles().equals(comibles)){
-                    comibles=ac.getComibles();
+                if (ac.getComibles()){
+                    ac.setComibles(false);
                     msgt.convertAndSend("/topic/fantasmasComibles."+String.valueOf(idsala), ac.getComibles()); 
                 }
                 if(ac.getPosiciones()[0]!=0){
