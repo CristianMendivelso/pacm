@@ -181,20 +181,15 @@ function connect() {
             var tablero = JSON.parse(data.body);
             console.log(tablero.length);
             for (i = 0; i < tablero.length; i++) {
-<<<<<<< HEAD
-                
-                if (tablero[i].key ==="A"){
-                    var myObstacle = new pacman(20,20,"images/rightA.png",20*tablero[i].y,20*tablero[i].x, "image");
-                    if(myplayer === tablero[i].key){
-                        myposx=tablero[i].x;
-                        myposy=tablero[i].y;
-=======
+
+
+
                 if (tablero[i].key === "A") {
                     var myObstacle = new pacman(20, 20, "images/rightA.png", 20 * tablero[i].y, 20 * tablero[i].x, "image");
                     if (myplayer === tablero[i].key) {
                         myposx = tablero[i].x;
                         myposy = tablero[i].y;
->>>>>>> bef84c1974b71a012f18551df6f5a42031cf5cdd
+
                     }
 
                 } else if (tablero[i].key === "B") {
@@ -298,7 +293,6 @@ function connect() {
 
             // cambiar imagen de los fantasmas segun la variable
         });
-<<<<<<< HEAD
         
         stompClient.subscribe('/topic/'+sessionStorage.getItem('sala')+'/'+myplayer, function (data) {
         var positions=JSON.parse(data.body);
@@ -310,16 +304,7 @@ function connect() {
                 alert("muerto");
                 disconnect();
         }
-        
-       
-=======
 
-        stompClient.subscribe('/topic/' + sessionStorage.getItem('sala') + '/' + myplayer, function (data) {
-            var positions = JSON.parse(data.body);
-            //editar
-            myposx = positions[0];
-            myposy = positions[1];
->>>>>>> bef84c1974b71a012f18551df6f5a42031cf5cdd
 
 
         });
