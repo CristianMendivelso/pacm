@@ -9,7 +9,12 @@ var currentFrame = 0;
 var totalFrames = 2;
 var imgs=null;
 var ky=null;
-var fantasma="images/naranja.png";
+var fantasmaA="images/fana.png";
+var fantasmaB="images/fanb.png";
+var fantasmaC="images/fanc.png";
+var fantasmaD="images/fand.png";
+
+
 
 
 /**
@@ -25,6 +30,7 @@ function selectImage(){
 		imgs="images/right.png";
 	}else if(ky===40){
 		imgs="images/down.png";
+                
 	}
 }
 function cargarSala(){
@@ -171,7 +177,7 @@ function connect() {
             console.log(tablero.length);
             for (i = 0; i < tablero.length; i++) {
                 if (tablero[i].key ==="A"){
-                    var myObstacle = new pacman(20,20, "images/rightA.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20,"images/rightA.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -179,7 +185,7 @@ function connect() {
                     
                 }
                 else if (tablero[i].key ==="B"){
-                    var myObstacle = new pacman(20,20, "images/rightB.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20,"images/rightB.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -195,7 +201,7 @@ function connect() {
                     
                 }
                 else if (tablero[i].key ==="D"){
-                    var myObstacle = new pacman(20,20, "images/rightD.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new pacman(20,20,"images/rightD.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -203,7 +209,7 @@ function connect() {
                     
                 }
                 else if (tablero[i].key ==="a"){
-                    var myObstacle = new ghost(20,20, "images/fana.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20,fantasmaA,20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -212,7 +218,7 @@ function connect() {
                     
                 }
                 else if (tablero[i].key ==="b"){
-                    var myObstacle = new ghost(20,20, "images/fanb.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, fantasmaB,20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -221,7 +227,7 @@ function connect() {
                     
                 }
                 else if (tablero[i].key ==="c"){
-                    var myObstacle = new ghost(20,20, "images/fanc.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20,fantasmaC ,20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -230,7 +236,7 @@ function connect() {
                     
                 }
                 else if (tablero[i].key ==="d"){
-                    var myObstacle = new ghost(20,20, "images/fand.png",20*tablero[i].y,20*tablero[i].x, "image");
+                    var myObstacle = new ghost(20,20, fantasmaD,20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
                         myposx=tablero[i].x;
                         myposy=tablero[i].y;
@@ -279,7 +285,20 @@ function connect() {
          
         });
         stompClient.subscribe('/topic/fantasmasComibles.'+sessionStorage.getItem('sala'), function (data) {
-            console.log(data);//Variable booleana
+            var comibles = data.body;
+            if (comibles === "true"){
+                fantasmaA="images/fantasmaV3.png";
+                fantasmaB="images/fantasmaV3.png";
+                fantasmaC="images/fantasmaV3.png";
+                fantasmaD="images/fantasmaV3.png";
+            }
+            else{
+                fantasmaA="images/fana.png";
+                fantasmaB="images/fanb.png";
+                fantasmaC="images/fanc.png";
+                fantasmaD="images/fand.png";
+            }
+            
             // cambiar imagen de los fantasmas segun la variable
         });
         
