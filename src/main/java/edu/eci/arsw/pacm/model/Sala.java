@@ -12,13 +12,22 @@ package edu.eci.arsw.pacm.model;
 public class Sala {
     String[][] matriz ;
     int puntos;
-
+    int[] vidas=new int[4];
+    
     public String[][] getMatriz() {
         return matriz;
     }
 
     public void setMatriz(String[][] matriz) {
         this.matriz = matriz;
+    }
+
+    public int[] getVidas() {
+        return vidas;
+    }
+
+    public void setVidas(int[] vidas) {
+        this.vidas = vidas;
     }
 
     public int getPuntos() {
@@ -32,7 +41,13 @@ public class Sala {
     public Sala(String[][] matriz, int puntos) {
         this.matriz = matriz;
         this.puntos = puntos;
+        for (int i=0;i<4;i++){
+            vidas[i]=2;
+        }
+        
     }
+    
+    
     
     public Sala(){}
     

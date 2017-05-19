@@ -176,6 +176,7 @@ function connect() {
             var tablero = JSON.parse(data.body);
             console.log(tablero.length);
             for (i = 0; i < tablero.length; i++) {
+                
                 if (tablero[i].key ==="A"){
                     var myObstacle = new pacman(20,20,"images/rightA.png",20*tablero[i].y,20*tablero[i].x, "image");
                     if(myplayer === tablero[i].key){
@@ -309,6 +310,13 @@ function connect() {
         //editar
         myposx = positions[0];
         myposy = positions[1];
+        mymem= mymem-1;
+        if(myplayer === myplayer.toUpperCase() && mymem===0){
+                alert("muerto");
+                disconnect();
+        }
+        
+       
 
 
         });

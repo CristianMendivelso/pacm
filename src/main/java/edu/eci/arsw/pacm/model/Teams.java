@@ -22,6 +22,7 @@ public class Teams {
     private HashMap<String, String> identificadores = new HashMap<>();
     private CopyOnWriteArrayList<Info> informacion = new CopyOnWriteArrayList();
     
+    
     public CopyOnWriteArrayList<Info> getInformacion() {
         return informacion;
     }

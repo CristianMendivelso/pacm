@@ -23,7 +23,7 @@ public class Logica implements LogicaAbs {
     @Autowired
     PacmServices services;
     private final ConcurrentHashMap<Integer, Sala> salasMatrices = new ConcurrentHashMap<>();
-    ArrayList<Elemento> actualizaciones = new ArrayList();
+    
     ArrayList<HiloComerFantasmas> hilosComibles = new ArrayList();
 
     public Logica() {
@@ -48,8 +48,8 @@ public class Logica implements LogicaAbs {
     }
 
     public Actualizacion mover(int idsala, Jugador j) {
+        
         Actualizacion ac = new Actualizacion();
-
         if (!salasMatrices.containsKey(idsala)) {
             Sala sala = new Sala(LeerFichero.muestraContenido(), LeerFichero.puntos);
             salasMatrices.put(idsala, sala);
@@ -57,7 +57,7 @@ public class Logica implements LogicaAbs {
         ArrayList<Elemento> actualizaciones = new ArrayList();
         //Si es pacman
         String[][] matriz = salasMatrices.get(idsala).getMatriz();
-
+        int[] vidas = salasMatrices.get(idsala).getVidas();
         int puntos = salasMatrices.get(idsala).getPuntos();
         ac.setPuntos(puntos);
         ac.setComibles(comibles);
@@ -68,11 +68,12 @@ public class Logica implements LogicaAbs {
                         //mimra si se puede comer al fantasma o no
                         
                         String data= matriz[j.getX()][j.getY()];
+                        
                         matriz[j.getX()][j.getY()] = "0";
                         int[] ans=morir(data, matriz);
                         matriz[ans[0]][ans[1]]=data;
                         //crear el pacman
-                        Elemento je = new Elemento(ans[0],ans[1],data,0);
+                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
                         Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(je);
@@ -84,7 +85,7 @@ public class Logica implements LogicaAbs {
                     } else if ((matriz[j.getX() + 1][j.getY()]).equals("1")) {
                         matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], 0);
+                        Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -97,7 +98,7 @@ public class Logica implements LogicaAbs {
                     } else if ((matriz[j.getX() + 1][j.getY()]).equals("2")) {
                         matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], 0);
+                        Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -111,7 +112,7 @@ public class Logica implements LogicaAbs {
                     } else {
                         matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], 0);
+                        Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -128,7 +129,7 @@ public class Logica implements LogicaAbs {
                         int[] ans=morir(data, matriz);
                         matriz[ans[0]][ans[1]]=data;
                         //crear el pacman
-                        Elemento je = new Elemento(ans[0],ans[1],data,0);
+                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
                         Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(je);
@@ -141,7 +142,7 @@ public class Logica implements LogicaAbs {
                     } else if ((matriz[j.getX()][j.getY() - 1]).equals("1")) {
                         matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], 0);
+                        Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -154,7 +155,7 @@ public class Logica implements LogicaAbs {
                     } else if ((matriz[j.getX()][j.getY() - 1]).equals("2")) {
                         matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], 0);
+                        Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -169,7 +170,7 @@ public class Logica implements LogicaAbs {
                     } else {
                         matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], 0);
+                        Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -185,7 +186,7 @@ public class Logica implements LogicaAbs {
                         int[] ans=morir(data, matriz);
                         matriz[ans[0]][ans[1]]=data;
                         //crear el pacman
-                        Elemento je = new Elemento(ans[0],ans[1],data,0);
+                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
                         
                         Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
@@ -198,7 +199,7 @@ public class Logica implements LogicaAbs {
                     } else if ((matriz[j.getX() - 1][j.getY()]).equals("1")) {
                         matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], 0);
+                        Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -211,7 +212,7 @@ public class Logica implements LogicaAbs {
                     } else if ((matriz[j.getX() - 1][j.getY()]).equals("1")) {
                         matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], 0);
+                        Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -226,7 +227,7 @@ public class Logica implements LogicaAbs {
                     } else {
                         matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], 0);
+                        Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -247,9 +248,9 @@ public class Logica implements LogicaAbs {
                         int[] ans=morir(data, matriz);
                         matriz[ans[0]][ans[1]]=data;
                         //crear el pacman
-                        Elemento je = new Elemento(ans[0],ans[1],data,0);
+                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
                         ac.setPosiciones(ans);
-                        Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
+                        Elemento e = new Elemento(j.getX(), j.getY(), "0", j.getMem());
                         ac.setPlayer(data);
                         actualizaciones.add(e);
                         actualizaciones.add(je);
@@ -259,7 +260,7 @@ public class Logica implements LogicaAbs {
                     } else if ((matriz[j.getX()][j.getY() + 1]).equals("1")) {
                         matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], 0);
+                        Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -272,7 +273,7 @@ public class Logica implements LogicaAbs {
                     } else if ((matriz[j.getX()][j.getY() + 1]).equals("2")) {
                         matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], 0);
+                        Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -287,7 +288,7 @@ public class Logica implements LogicaAbs {
                     } else {
                         matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
-                        Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], 0);
+                        Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], j.getMem());
                         Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                         actualizaciones.add(e);
                         actualizaciones.add(e2);
@@ -308,7 +309,7 @@ public class Logica implements LogicaAbs {
                         String data= matriz[j.getX() + 1][j.getY()];
                         int[] ans=morir(data, matriz);
                         matriz[ans[0]][ans[1]]=data;
-                        Elemento je = new Elemento(ans[0],ans[1],data,0);
+                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
                         actualizaciones.add(je);
                         ac.setPlayer(data);
                         ac.setPosiciones(ans);
@@ -333,7 +334,7 @@ public class Logica implements LogicaAbs {
                         String data= matriz[j.getX()][j.getY() - 1];
                         int[] ans=morir(data, matriz);
                         matriz[ans[0]][ans[1]]=data;
-                        Elemento je = new Elemento(ans[0],ans[1],data,0);
+                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
                         actualizaciones.add(je);
                         ac.setPosiciones(ans);
                         ac.setPlayer(data);
@@ -357,7 +358,7 @@ public class Logica implements LogicaAbs {
                         String data= matriz[j.getX() - 1][j.getY()];
                         int[] ans=morir(data, matriz);
                         matriz[ans[0]][ans[1]]=data;
-                        Elemento je = new Elemento(ans[0],ans[1],data,0);
+                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
                         actualizaciones.add(je);
                         ac.setPosiciones(ans);
                         ac.setPlayer(data);
@@ -381,7 +382,7 @@ public class Logica implements LogicaAbs {
                         String data= matriz[j.getX()][j.getY() + 1];
                         int[] ans=morir(data, matriz);
                         matriz[ans[0]][ans[1]]=data;
-                        Elemento je = new Elemento(ans[0],ans[1],data,0);
+                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
                         actualizaciones.add(je);
                         ac.setPlayer(data);
                         ac.setPosiciones(ans);
