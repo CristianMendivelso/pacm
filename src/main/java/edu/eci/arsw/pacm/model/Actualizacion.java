@@ -17,6 +17,24 @@ public class Actualizacion {
     private Boolean cambioDePuntos = false;
     private int puntos;
     private Boolean comibles = false;
+    int[] posiciones=new int[2];
+    private String player;
+
+    public String getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = player;
+    }
+
+    public int[] getPosiciones() {
+        return posiciones;
+    }
+
+    public void setPosiciones(int[] posiciones) {
+        this.posiciones = posiciones;
+    }
 
     /**
      * @return the actualizaciones

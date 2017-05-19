@@ -14,6 +14,7 @@ import edu.eci.arsw.pacm.model.Sala;
 import edu.eci.arsw.pacm.model.Teams;
 import edu.eci.arsw.pacm.model.Logica;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -27,24 +28,31 @@ public class STOMPMessagesHandler {
     @Autowired
     SimpMessagingTemplate msgt;
 
-    Logica l = new Logica();
+    @Autowired
+    Logica l;
     Boolean comibles = false;
 	// comentario
 	// para re-subir el proyecto
     @MessageMapping("/mover.{idsala}")
     public void mover(@DestinationVariable int idsala, Jugador j) {
-        synchronized (l) {
+        synchronized (comibles) {
             Actualizacion ac = l.mover(idsala, j);
-            msgt.convertAndSend("/topic/actualizarJuego." + String.valueOf(idsala), ac.getActualizaciones());
-            if (ac.getCambioDePuntos()) {
-                msgt.convertAndSend("/topic/puntosRestantes." + String.valueOf(idsala), ac.getPuntos());
-            }
-            if (ac.getPuntos()==0){
-               msgt.convertAndSend("/topic/findejuego."+String.valueOf(idsala), "EQUIPO ATACANTE"); 
-            }
-            if (!ac.getComibles().equals(comibles)){
-                comibles=ac.getComibles();
-                msgt.convertAndSend("/topic/fantasmasComibles."+String.valueOf(idsala), ac.getComibles()); 
+            if (ac.getActualizaciones()!=null){
+                msgt.convertAndSend("/topic/actualizarJuego." + String.valueOf(idsala), ac.getActualizaciones());
+                if (ac.getCambioDePuntos()) {
+                    msgt.convertAndSend("/topic/puntosRestantes." + String.valueOf(idsala), ac.getPuntos());
+                }
+                if (ac.getPuntos()==0){
+                   msgt.convertAndSend("/topic/findejuego."+String.valueOf(idsala), "EQUIPO ATACANTE"); 
+                }
+                if (!ac.getComibles().equals(comibles)){
+                    comibles=ac.getComibles();
+                    msgt.convertAndSend("/topic/fantasmasComibles."+String.valueOf(idsala), ac.getComibles()); 
+                }
+                if(ac.getPosiciones()[0]!=0){
+                   System.out.println(Arrays.toString(ac.getPosiciones()));
+                   msgt.convertAndSend("/topic/"+String.valueOf(idsala)+'/'+ac.getPlayer(), ac.getPosiciones()); 
+                }
             }
         }
 

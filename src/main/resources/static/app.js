@@ -268,6 +268,8 @@ function connect() {
          
         });
         
+        
+        
         stompClient.subscribe('/topic/findejuego.'+sessionStorage.getItem('sala'), function (data) {
             var gana=data.body;
             ctx.font = "bold 34px sans-serif";
@@ -282,6 +284,16 @@ function connect() {
             console.log(data);//Variable booleana
             // cambiar imagen de los fantasmas segun la variable
         });
+        
+        stompClient.subscribe('/topic/'+sessionStorage.getItem('sala')+'/'+myplayer, function (data) {
+        var positions=JSON.parse(data.body);
+        //editar
+        myposx = positions[0];
+        myposy = positions[1];
+
+
+        });
+
         
         cargarSala();
         
@@ -387,6 +399,7 @@ $(document).ready(
             
             $.get("/salas/"+sessionStorage.getItem('sala')+"/"+sessionStorage.getItem('identificador'), function (data) {
                      myplayer=data;
+                     
                      //si es mayuscula es decir pacman
                      if (data === data.toUpperCase()){
                          mymem=2;
