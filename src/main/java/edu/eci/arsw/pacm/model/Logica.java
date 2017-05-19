@@ -18,35 +18,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class Logica implements LogicaAbs {
 
-    static boolean comibles = false;
+    
 
     @Autowired
     PacmServices services;
     private final ConcurrentHashMap<Integer, Sala> salasMatrices = new ConcurrentHashMap<>();
-    
-    ArrayList<HiloComerFantasmas> hilosComibles = new ArrayList();
+    private ArrayList<Long> tiemposComibles = new ArrayList();
 
     public Logica() {
     }
 
     @Override
-    public void contabilizarTiempo(Actualizacion ac) {
-        if (comibles) {
-            hilosComibles.get(0).terminate();
-            hilosComibles.clear();
-            HiloComerFantasmas hcf = new HiloComerFantasmas();
-            hilosComibles.add(hcf);
-            hcf.start();
-        } else {
-            comibles = true;
-            ac.setComibles(comibles);
-            HiloComerFantasmas hcf = new HiloComerFantasmas();
-            hilosComibles.add(hcf);
-            hcf.start();
-        }
 
-    }
-
+    
     public Actualizacion mover(int idsala, Jugador j) {
         
         Actualizacion ac = new Actualizacion();
@@ -60,7 +44,7 @@ public class Logica implements LogicaAbs {
         int[] vidas = salasMatrices.get(idsala).getVidas();
         int puntos = salasMatrices.get(idsala).getPuntos();
         ac.setPuntos(puntos);
-        ac.setComibles(comibles);
+        //ac.setComibles(comibles);
         if (matriz[j.getX()][j.getY()].equals("B") || matriz[j.getX()][j.getY()].equals("A") || matriz[j.getX()][j.getY()].equals("C") || matriz[j.getX()][j.getY()].equals("D")) {
             if (j.getK() == 40) {
                 if (!(matriz[j.getX() + 1][j.getY()]).equals("3") && !(matriz[j.getX() + 1][j.getY()]).equals("A") && !(matriz[j.getX() + 1][j.getY()]).equals("B") && !(matriz[j.getX() + 1][j.getY()]).equals("C") && !(matriz[j.getX() + 1][j.getY()]).equals("D")) {
@@ -106,7 +90,9 @@ public class Logica implements LogicaAbs {
                         puntos -= 1;
                         ac.setPuntos(puntos);
                         ac.setCambioDePuntos(true);
-                        contabilizarTiempo(ac);
+                        guardarTiempo(ac);
+                        
+                        
 
                         //no comer nada
                     } else {
@@ -163,7 +149,7 @@ public class Logica implements LogicaAbs {
                         puntos -= 1;
                         ac.setPuntos(puntos);
                         ac.setCambioDePuntos(true);
-                        contabilizarTiempo(ac);
+                        guardarTiempo(ac);
                         
                         
                         //no comer nada
@@ -209,7 +195,7 @@ public class Logica implements LogicaAbs {
                         ac.setCambioDePuntos(true);
 
                         //comper puntos grandes
-                    } else if ((matriz[j.getX() - 1][j.getY()]).equals("1")) {
+                    } else if ((matriz[j.getX() - 1][j.getY()]).equals("2")) {
                         matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = "0";
                         Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], j.getMem());
@@ -220,8 +206,8 @@ public class Logica implements LogicaAbs {
                         puntos -= 1;
                         ac.setPuntos(puntos);
                         ac.setCambioDePuntos(true);
-                        contabilizarTiempo(ac);
-                        
+                        guardarTiempo(ac);     
+                                        
 
                         //no comer nada
                     } else {
@@ -281,7 +267,7 @@ public class Logica implements LogicaAbs {
                         puntos -= 1;
                         ac.setPuntos(puntos);
                         ac.setCambioDePuntos(true);
-                        contabilizarTiempo(ac);
+                        guardarTiempo(ac);
                         
 
                         //no comer nada
@@ -448,5 +434,14 @@ public class Logica implements LogicaAbs {
         ans[0]=myposx;
         ans[1]=myposy;
         return ans;
+    }
+
+    @Override
+    public void guardarTiempo(Actualizacion ac) {
+        long inicio = System.currentTimeMillis();
+        tiemposComibles.add(inicio);
+        ac.setComibles(true);
+        
+        
     }
 }
