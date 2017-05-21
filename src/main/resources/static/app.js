@@ -275,10 +275,12 @@ function connect() {
 
         stompClient.subscribe('/topic/findejuego.' + sessionStorage.getItem('sala'), function (data) {
             var gana = data.body;
-            ctx.font = "bold 34px sans-serif";
-            ctx.fillStyle = "white";
+            ctx.font = "Helvetica 200px sans-serif";
+            ctx.fillStyle = "rgba(255,0,0,0.5)";
             ctx.fillText("El Equipo Ganador Es El", 110, 200);
             ctx.fillText(gana, 110, 250);
+			$("#buttons").append($('<a href="index.html" class="btn yellow">Volver al inicio</a>'));
+			
 
             disconnect();
 
