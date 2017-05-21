@@ -6,15 +6,9 @@
 package edu.eci.arsw.pacm.controllers;
 
 import edu.eci.arsw.pacm.model.Actualizacion;
-import edu.eci.arsw.pacm.model.Elemento;
 import edu.eci.arsw.pacm.model.Jugador;
-import edu.eci.arsw.pacm.model.LeerFichero;
-import edu.eci.arsw.pacm.model.Sala;
-import edu.eci.arsw.pacm.model.Teams;
 import edu.eci.arsw.pacm.model.Logica;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;

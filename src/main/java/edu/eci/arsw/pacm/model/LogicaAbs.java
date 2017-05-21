@@ -13,7 +13,7 @@ package edu.eci.arsw.pacm.model;
 public interface LogicaAbs {
 
 
-    public void guardarTiempo(Actualizacion ac);
+    public void guardarTiempo(Actualizacion ac, Sala s);
 
     public Actualizacion mover(int idsala, Jugador j);
         

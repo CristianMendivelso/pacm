@@ -150,7 +150,6 @@ function connect() {
 
         function update() {
             if (cont === 10) {
-                alert(cont);
                 fantasmaA = "images/fana.png";
                 fantasmaB = "images/fanb.png";
                 fantasmaC = "images/fanc.png";
@@ -179,7 +178,7 @@ function connect() {
 
         stompClient.subscribe('/topic/actualizarJuego.' + sessionStorage.getItem('sala'), function (data) {
             var tablero = JSON.parse(data.body);
-            console.log(tablero.length);
+
             for (i = 0; i < tablero.length; i++) {
 
 
@@ -443,8 +442,8 @@ $(document).ready(
                         myposx = 17;
                         myposy = 18;
                     } else if (data === 'd') {
-                        myposx = 17;
-                        myposy = 12;
+                        myposx = 12;
+                        myposy = 17;
                     }
                 }
 

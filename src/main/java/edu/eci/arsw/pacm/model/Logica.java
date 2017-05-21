@@ -18,21 +18,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class Logica implements LogicaAbs {
 
-    
-
     @Autowired
     PacmServices services;
     private final ConcurrentHashMap<Integer, Sala> salasMatrices = new ConcurrentHashMap<>();
-    private ArrayList<Long> tiemposComibles = new ArrayList();
 
     public Logica() {
     }
 
     @Override
 
-    
     public Actualizacion mover(int idsala, Jugador j) {
-        
+
         Actualizacion ac = new Actualizacion();
         if (!salasMatrices.containsKey(idsala)) {
             Sala sala = new Sala(LeerFichero.muestraContenido(), LeerFichero.puntos);
@@ -50,20 +46,41 @@ public class Logica implements LogicaAbs {
                 if (!(matriz[j.getX() + 1][j.getY()]).equals("3") && !(matriz[j.getX() + 1][j.getY()]).equals("A") && !(matriz[j.getX() + 1][j.getY()]).equals("B") && !(matriz[j.getX() + 1][j.getY()]).equals("C") && !(matriz[j.getX() + 1][j.getY()]).equals("D")) {
                     if ((matriz[j.getX() + 1][j.getY()]).equals("a") || (matriz[j.getX() + 1][j.getY()]).equals("b") || (matriz[j.getX() + 1][j.getY()]).equals("c") || (matriz[j.getX() + 1][j.getY()]).equals("d")) {
                         //mimra si se puede comer al fantasma o no
-                        
-                        String data= matriz[j.getX()][j.getY()];
-                        
-                        matriz[j.getX()][j.getY()] = "0";
-                        int[] ans=morir(data, matriz);
-                        matriz[ans[0]][ans[1]]=data;
-                        //crear el pacman
-                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
-                        Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
-                        actualizaciones.add(e);
-                        actualizaciones.add(je);
-                        ac.setPosiciones(ans);
-                        ac.setPlayer(data);
-                        ac.setActualizaciones(actualizaciones);
+                        long tiempo = System.currentTimeMillis();
+                        // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
+                        if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
+                            //comer fantasma
+                            String data = matriz[j.getX() + 1][j.getY()];
+                            matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            int[] ans = morir(data, matriz);
+                            matriz[ans[0]][ans[1]] = data;
+                            Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], j.getMem());
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
+                            Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            actualizaciones.add(ej);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            ac.setActualizaciones(actualizaciones);
+
+                        } else {
+                            //matar pacman
+                            String data = matriz[j.getX()][j.getY()];
+
+                            matriz[j.getX()][j.getY()] = "0";
+                            int[] ans = morir(data, matriz);
+                            matriz[ans[0]][ans[1]] = data;
+                            //crear el pacman
+                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                            Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(je);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            ac.setActualizaciones(actualizaciones);
+                        }
 
                         //comer puntos
                     } else if ((matriz[j.getX() + 1][j.getY()]).equals("1")) {
@@ -90,9 +107,7 @@ public class Logica implements LogicaAbs {
                         puntos -= 1;
                         ac.setPuntos(puntos);
                         ac.setCambioDePuntos(true);
-                        guardarTiempo(ac);
-                        
-                        
+                        guardarTiempo(ac, salasMatrices.get(idsala));
 
                         //no comer nada
                     } else {
@@ -110,19 +125,41 @@ public class Logica implements LogicaAbs {
                 if (!(matriz[j.getX()][j.getY() - 1]).equals("3") && !(matriz[j.getX()][j.getY() - 1]).equals("A") && !(matriz[j.getX()][j.getY() - 1]).equals("B") && !(matriz[j.getX()][j.getY() - 1]).equals("C") && !(matriz[j.getX()][j.getY() - 1]).equals("D")) {
                     if ((matriz[j.getX()][j.getY() - 1]).equals("a") || (matriz[j.getX()][j.getY() - 1]).equals("b") || (matriz[j.getX()][j.getY() - 1]).equals("c") || (matriz[j.getX()][j.getY() - 1]).equals("d")) {
                         //comer fantasmas
-                        String data= matriz[j.getX()][j.getY()];
-                        matriz[j.getX()][j.getY()] = "0";
-                        int[] ans=morir(data, matriz);
-                        matriz[ans[0]][ans[1]]=data;
-                        //crear el pacman
-                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
-                        Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
-                        actualizaciones.add(e);
-                        actualizaciones.add(je);
-                        
-                        ac.setPosiciones(ans);
-                        ac.setPlayer(data);
-                        ac.setActualizaciones(actualizaciones);
+
+                        long tiempo = System.currentTimeMillis();
+                        // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
+                        if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
+                            //comer fantasma
+                            String data = matriz[j.getX()][j.getY() - 1];
+                            matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            int[] ans = morir(data, matriz);
+                            matriz[ans[0]][ans[1]] = data;
+                            Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], j.getMem());
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
+                            Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            actualizaciones.add(ej);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            ac.setActualizaciones(actualizaciones);
+                        } else {
+
+                            String data = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            int[] ans = morir(data, matriz);
+                            matriz[ans[0]][ans[1]] = data;
+                            //crear el pacman
+                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                            Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(je);
+
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            ac.setActualizaciones(actualizaciones);
+                        }
 
                         //comer puntos
                     } else if ((matriz[j.getX()][j.getY() - 1]).equals("1")) {
@@ -149,9 +186,8 @@ public class Logica implements LogicaAbs {
                         puntos -= 1;
                         ac.setPuntos(puntos);
                         ac.setCambioDePuntos(true);
-                        guardarTiempo(ac);
-                        
-                        
+                        guardarTiempo(ac, salasMatrices.get(idsala));
+
                         //no comer nada
                     } else {
                         matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
@@ -167,19 +203,40 @@ public class Logica implements LogicaAbs {
                 if (!(matriz[j.getX() - 1][j.getY()]).equals("3") && !(matriz[j.getX() - 1][j.getY()]).equals("A") && !(matriz[j.getX() - 1][j.getY()]).equals("B") && !(matriz[j.getX() - 1][j.getY()]).equals("C") && !(matriz[j.getX() - 1][j.getY()]).equals("D")) {
                     if ((matriz[j.getX() - 1][j.getY()]).equals("a") || (matriz[j.getX() - 1][j.getY()]).equals("b") || (matriz[j.getX() - 1][j.getY()]).equals("c") || (matriz[j.getX() - 1][j.getY()]).equals("d")) {
                         //comer fantasmas
-                        String data= matriz[j.getX()][j.getY()];
-                        matriz[j.getX()][j.getY()] = "0";
-                        int[] ans=morir(data, matriz);
-                        matriz[ans[0]][ans[1]]=data;
-                        //crear el pacman
-                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
-                        
-                        Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
-                        actualizaciones.add(e);
-                        actualizaciones.add(je);
-                        ac.setPosiciones(ans);
-                        ac.setPlayer(data);
-                        ac.setActualizaciones(actualizaciones);
+
+                        long tiempo = System.currentTimeMillis();
+                        // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
+                        if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
+                            //comer fantasma
+                            String data = matriz[j.getX() - 1][j.getY()];
+                            matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            int[] ans = morir(data, matriz);
+                            matriz[ans[0]][ans[1]] = data;
+                            Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], j.getMem());
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
+                            Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            actualizaciones.add(ej);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            ac.setActualizaciones(actualizaciones);
+                        } else {
+                            String data = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            int[] ans = morir(data, matriz);
+                            matriz[ans[0]][ans[1]] = data;
+                            //crear el pacman
+                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+
+                            Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(je);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            ac.setActualizaciones(actualizaciones);
+                        }
 
                         //comer puntos
                     } else if ((matriz[j.getX() - 1][j.getY()]).equals("1")) {
@@ -206,8 +263,7 @@ public class Logica implements LogicaAbs {
                         puntos -= 1;
                         ac.setPuntos(puntos);
                         ac.setCambioDePuntos(true);
-                        guardarTiempo(ac);     
-                                        
+                        guardarTiempo(ac, salasMatrices.get(idsala));
 
                         //no comer nada
                     } else {
@@ -226,21 +282,40 @@ public class Logica implements LogicaAbs {
                 if (!(matriz[j.getX()][j.getY() + 1]).equals("3") && !(matriz[j.getX()][j.getY() + 1]).equals("A") && !(matriz[j.getX()][j.getY() + 1]).equals("B") && !(matriz[j.getX()][j.getY() + 1]).equals("C") && !(matriz[j.getX()][j.getY() + 1]).equals("D")) {
                     if ((matriz[j.getX()][j.getY() + 1]).equals("a") || (matriz[j.getX()][j.getY() + 1]).equals("b") || (matriz[j.getX()][j.getY() + 1]).equals("c") || (matriz[j.getX()][j.getY() + 1]).equals("d")) {
                         //comer fantasmas 
-                        
-                        //mi jugador
-                        
-                        String data= matriz[j.getX()][j.getY()];
-                        matriz[j.getX()][j.getY()] = "0";
-                        int[] ans=morir(data, matriz);
-                        matriz[ans[0]][ans[1]]=data;
-                        //crear el pacman
-                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
-                        ac.setPosiciones(ans);
-                        Elemento e = new Elemento(j.getX(), j.getY(), "0", j.getMem());
-                        ac.setPlayer(data);
-                        actualizaciones.add(e);
-                        actualizaciones.add(je);
-                        ac.setActualizaciones(actualizaciones);
+
+                        long tiempo = System.currentTimeMillis();
+                        // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
+                        if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
+                            //comer fantasma
+                            String data = matriz[j.getX()][j.getY() + 1];
+                            matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            int[] ans = morir(data, matriz);
+                            matriz[ans[0]][ans[1]] = data;
+                            Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], j.getMem());
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
+                            Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
+                            actualizaciones.add(e);
+                            actualizaciones.add(e2);
+                            actualizaciones.add(ej);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            ac.setActualizaciones(actualizaciones);
+                        } else {
+                            //mi jugador
+                            String data = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = "0";
+                            int[] ans = morir(data, matriz);
+                            matriz[ans[0]][ans[1]] = data;
+                            //crear el pacman
+                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                            ac.setPosiciones(ans);
+                            Elemento e = new Elemento(j.getX(), j.getY(), "0", j.getMem());
+                            ac.setPlayer(data);
+                            actualizaciones.add(e);
+                            actualizaciones.add(je);
+                            ac.setActualizaciones(actualizaciones);
+                        }
 
                         //comer puntos
                     } else if ((matriz[j.getX()][j.getY() + 1]).equals("1")) {
@@ -267,8 +342,7 @@ public class Logica implements LogicaAbs {
                         puntos -= 1;
                         ac.setPuntos(puntos);
                         ac.setCambioDePuntos(true);
-                        guardarTiempo(ac);
-                        
+                        guardarTiempo(ac, salasMatrices.get(idsala));
 
                         //no comer nada
                     } else {
@@ -282,105 +356,236 @@ public class Logica implements LogicaAbs {
                     }
                 }
             }
+			
+			
+			
+			
+			
             //si es fantasma
         } else if (matriz[j.getX()][j.getY()].equals("b") || matriz[j.getX()][j.getY()].equals("a") || matriz[j.getX()][j.getY()].equals("c") || matriz[j.getX()][j.getY()].equals("d")) {
             //abajo
             if (j.getK() == 40) {
                 if (!(matriz[j.getX() + 1][j.getY()]).equals("3") && !(matriz[j.getX() + 1][j.getY()]).equals("a") && !(matriz[j.getX() + 1][j.getY()]).equals("b") && !(matriz[j.getX() + 1][j.getY()]).equals("c") && !(matriz[j.getX() + 1][j.getY()]).equals("d")) {
+
                     int temp;
                     try {
-                        temp = Integer.parseInt(matriz[j.getX() + 1][j.getY()]);
-                    } catch (Exception e) {
-                        temp = 0;
-                        String data= matriz[j.getX() + 1][j.getY()];
-                        int[] ans=morir(data, matriz);
-                        matriz[ans[0]][ans[1]]=data;
-                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
-                        actualizaciones.add(je);
-                        ac.setPlayer(data);
-                        ac.setPosiciones(ans);
-                    }
+                    temp = Integer.parseInt(matriz[j.getX() + 1][j.getY()]);
+                    
+                    
                     matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
                     matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-                    Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], temp);
+                    Elemento e1 = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], temp);
                     Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-                    actualizaciones.add(e);
+                    actualizaciones.add(e1);
                     actualizaciones.add(e2);
-                    
+
                     ac.setActualizaciones(actualizaciones);
+                    
+                    } catch (Exception e) {
+                        long tiempo = System.currentTimeMillis();
+                        // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
+                        if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
+                            //comer fantasma
+                            String fantasma = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                            int[] ans = morir(fantasma, matriz);
+                            matriz[ans[0]][ans[1]] = fantasma;
+                            Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
+                            Elemento e3 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                            actualizaciones.add(e3);
+                            actualizaciones.add(ej);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(fantasma);
+                            ac.setActualizaciones(actualizaciones);
+
+                        } else {
+
+                            temp = 0;
+                            String data = matriz[j.getX() + 1][j.getY()];
+                            int[] ans = morir(data, matriz);
+                            matriz[ans[0]][ans[1]] = data;
+                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                            actualizaciones.add(je);
+                            ac.setPlayer(data);
+                            ac.setPosiciones(ans);
+							
+							matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
+							matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+							Elemento e1 = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], temp);
+							Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+							actualizaciones.add(e1);
+							actualizaciones.add(e2);
+
+							ac.setActualizaciones(actualizaciones);
+							
+                            
+                        }
+                        
+                    }
+                    
+
                 }
             } else if (j.getK() == 37) {
                 if (!(matriz[j.getX()][j.getY() - 1]).equals("3") && !(matriz[j.getX()][j.getY() - 1]).equals("a") && !(matriz[j.getX()][j.getY() - 1]).equals("b") && !(matriz[j.getX()][j.getY() - 1]).equals("c") && !(matriz[j.getX()][j.getY() - 1]).equals("d")) {
                     int temp;
                     try {
                         temp = Integer.parseInt(matriz[j.getX()][j.getY() - 1]);
-                    } catch (Exception e) {
-                        temp = 0;
-                        String data= matriz[j.getX()][j.getY() - 1];
-                        int[] ans=morir(data, matriz);
-                        matriz[ans[0]][ans[1]]=data;
-                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
-                        actualizaciones.add(je);
-                        ac.setPosiciones(ans);
-                        ac.setPlayer(data);
-                    }
-                    matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
-                    matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+						
+						matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
+						matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-                    Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], temp);
-                    Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-                    actualizaciones.add(e);
-                    actualizaciones.add(e2);
-                    ac.setActualizaciones(actualizaciones);
+						Elemento e1 = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], temp);
+						Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+						actualizaciones.add(e1);
+						actualizaciones.add(e2);
+						ac.setActualizaciones(actualizaciones);
+                    } catch (Exception e) {
+						long tiempo = System.currentTimeMillis();
+                        // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
+                        if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
+                            //comer fantasma
+                            String fantasma = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                            int[] ans = morir(fantasma, matriz);
+                            matriz[ans[0]][ans[1]] = fantasma;
+                            Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
+                            Elemento e3 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                            actualizaciones.add(e3);
+                            actualizaciones.add(ej);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(fantasma);
+                            ac.setActualizaciones(actualizaciones);
+
+                        } else {
+							temp = 0;
+							String data = matriz[j.getX()][j.getY() - 1];
+							int[] ans = morir(data, matriz);
+							matriz[ans[0]][ans[1]] = data;
+							Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+							actualizaciones.add(je);
+							ac.setPosiciones(ans);
+							ac.setPlayer(data);
+							
+							matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
+							matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+							Elemento e1 = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], temp);
+							Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+							actualizaciones.add(e1);
+							actualizaciones.add(e2);
+							ac.setActualizaciones(actualizaciones);
+						}
+                    }
+                    
                 }
             } else if (j.getK() == 38) {
                 if (!(matriz[j.getX() - 1][j.getY()]).equals("3") && !(matriz[j.getX() - 1][j.getY()]).equals("a") && !(matriz[j.getX() - 1][j.getY()]).equals("b") && !(matriz[j.getX() - 1][j.getY()]).equals("c") && !(matriz[j.getX() - 1][j.getY()]).equals("d")) {
                     int temp;
                     try {
                         temp = Integer.parseInt(matriz[j.getX() - 1][j.getY()]);
-                    } catch (Exception e) {
-                        temp = 0;
-                        String data= matriz[j.getX() - 1][j.getY()];
-                        int[] ans=morir(data, matriz);
-                        matriz[ans[0]][ans[1]]=data;
-                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
-                        actualizaciones.add(je);
-                        ac.setPosiciones(ans);
-                        ac.setPlayer(data);
-                    }
-                    matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
-                    matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-                    Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], temp);
-                    Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-                    actualizaciones.add(e);
-                    actualizaciones.add(e2);
-                    ac.setActualizaciones(actualizaciones);
+						matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
+						matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+						Elemento e1 = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], temp);
+						Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+						actualizaciones.add(e1);
+						actualizaciones.add(e2);
+						ac.setActualizaciones(actualizaciones);
+
+                    } catch (Exception e) {
+						long tiempo = System.currentTimeMillis();
+                        // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
+                        if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
+                            //comer fantasma
+                            String fantasma = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                            int[] ans = morir(fantasma, matriz);
+                            matriz[ans[0]][ans[1]] = fantasma;
+                            Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
+                            Elemento e3 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                            actualizaciones.add(e3);
+                            actualizaciones.add(ej);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(fantasma);
+                            ac.setActualizaciones(actualizaciones);
+
+                        } else {
+							temp = 0;
+							String data = matriz[j.getX() - 1][j.getY()];
+							int[] ans = morir(data, matriz);
+							matriz[ans[0]][ans[1]] = data;
+							Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+							actualizaciones.add(je);
+							ac.setPosiciones(ans);
+							ac.setPlayer(data);
+							
+							matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
+							matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+							Elemento e1 = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], temp);
+							Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+							actualizaciones.add(e1);
+							actualizaciones.add(e2);
+							ac.setActualizaciones(actualizaciones);
+						}
+                    }
+                    
                 }
             } else if (j.getK() == 39) {
                 if (!(matriz[j.getX()][j.getY() + 1]).equals("3") && !(matriz[j.getX()][j.getY() + 1]).equals("a") && !(matriz[j.getX()][j.getY() + 1]).equals("b") && !(matriz[j.getX()][j.getY() + 1]).equals("c") && !(matriz[j.getX()][j.getY() + 1]).equals("d")) {
                     int temp;
                     try {
                         temp = Integer.parseInt(matriz[j.getX()][j.getY() + 1]);
-                    } catch (Exception e) {
-                        temp = 0;
-                        String data= matriz[j.getX()][j.getY() + 1];
-                        int[] ans=morir(data, matriz);
-                        matriz[ans[0]][ans[1]]=data;
-                        Elemento je = new Elemento(ans[0],ans[1],data,j.getMem()-1);
-                        actualizaciones.add(je);
-                        ac.setPlayer(data);
-                        ac.setPosiciones(ans);
-                    }
-                    matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
-                    matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+						
+						matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
+						matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-                    Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], temp);
-                    Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-                    actualizaciones.add(e);
-                    actualizaciones.add(e2);
-                    ac.setActualizaciones(actualizaciones);
+						Elemento e1 = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], temp);
+						Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+						actualizaciones.add(e1);
+						actualizaciones.add(e2);
+						ac.setActualizaciones(actualizaciones);
+                    } catch (Exception e) {
+						long tiempo = System.currentTimeMillis();
+                        // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
+                        if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
+                            //comer fantasma
+                            String fantasma = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                            int[] ans = morir(fantasma, matriz);
+                            matriz[ans[0]][ans[1]] = fantasma;
+                            Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
+                            Elemento e3 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                            actualizaciones.add(e3);
+                            actualizaciones.add(ej);
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(fantasma);
+                            ac.setActualizaciones(actualizaciones);
+
+                        } else {
+							temp = 0;
+							String data = matriz[j.getX()][j.getY() + 1];
+							int[] ans = morir(data, matriz);
+							matriz[ans[0]][ans[1]] = data;
+							Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+							actualizaciones.add(je);
+							ac.setPlayer(data);
+							ac.setPosiciones(ans);
+							
+							matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
+							matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+							Elemento e1 = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], temp);
+							Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+							actualizaciones.add(e1);
+							actualizaciones.add(e2);
+							ac.setActualizaciones(actualizaciones);
+						}
+                    }
+                    
                 }
             }
         }
@@ -392,56 +597,85 @@ public class Logica implements LogicaAbs {
 //            System.out.println("");
 //        
 //        }
-        
-        
+
         salasMatrices.get(idsala).setMatriz(matriz);
         salasMatrices.get(idsala).setPuntos(puntos);
-        
-        
+
         return ac;
     }
 
     @Override
-    public int[] morir(String data,String[][] matriz) {
-        int myposx=1,myposy=1;
-        int [] ans=new int[2];
+    public int[] morir(String data, String[][] matriz) {
+        boolean flag = true;
+        int myposx = 1, myposy = 1;
+        int[] ans = new int[2];
         if (data.equals("A")) {
             myposx = 23;
             myposy = 1;
-        } else if (data.equals('B')) {
+        } else if (data.equals("B")) {
             myposx = 1;
             myposy = 1;
-        } else if (data.equals('D')) {
+        } else if (data.equals("D")) {
             myposx = 1;
             myposy = 34;
-        } else if (data.equals('C')) {
+        } else if (data.equals("C")) {
             myposx = 23;
             myposy = 34;
-        }
 
-        if (!matriz[myposx][myposy].equals("0")) {
-            for (int i = 0; i < 24; i++) {
-                for (int col = 0; col < 35; col++) {
+        } else if (data.equals("a")) {
+            myposx = 13;
+            myposy = 15;
+            flag = false;
+        } else if (data.equals("b")) {
+            myposx = 18;
+            myposy = 16;
+            flag = false;
+        } else if (data.equals("c")) {
+            myposx = 17;
+            myposy = 18;
+            flag = false;
+        } else if (data.equals("d")) {
+            myposx = 12;
+            myposy = 17;
+            flag = false;
+        }
+        if (flag) {
+            if (!matriz[myposx][myposy].equals("0")) {
+                for (int i = 0; i < 24; i++) {
+                    for (int col = 0; col < 35; col++) {
+                        if (matriz[i][col].equals("0")) {
+                            myposx = i;
+                            myposy = col;
+                            i = 25;
+                            break;
+                        }
+                    }
+                }
+            }
+        } else if (!matriz[myposx][myposy].equals("0")) {
+            for (int i = 14; i < 18; i++) {
+                for (int col = 16; col < 20; col++) {
                     if (matriz[i][col].equals("0")) {
-                        myposx=i;
-                        myposy=col;
-                        i = 25;
+                        myposx = i;
+                        myposy = col;
+                        i = 21;
                         break;
                     }
                 }
             }
         }
-        ans[0]=myposx;
-        ans[1]=myposy;
+        ans[0] = myposx;
+        ans[1] = myposy;
         return ans;
     }
 
     @Override
-    public void guardarTiempo(Actualizacion ac) {
+    public void guardarTiempo(Actualizacion ac, Sala s) {
+        ArrayList<Long> tiemposComibles = s.getTiemposComibles();
         long inicio = System.currentTimeMillis();
         tiemposComibles.add(inicio);
         ac.setComibles(true);
-        
-        
+        s.setTiemposComibles(tiemposComibles);
+
     }
 }

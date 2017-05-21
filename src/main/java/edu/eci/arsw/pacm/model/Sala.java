@@ -5,6 +5,8 @@
  */
 package edu.eci.arsw.pacm.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author User
@@ -13,6 +15,16 @@ public class Sala {
     String[][] matriz ;
     int puntos;
     int[] vidas=new int[4];
+    private ArrayList<Long> tiemposComibles = new ArrayList();
+
+    public ArrayList<Long> getTiemposComibles() {
+        return tiemposComibles;
+    }
+
+    public void setTiemposComibles(ArrayList<Long> tiemposComibles) {
+        this.tiemposComibles = tiemposComibles;
+    }
+    
     
     public String[][] getMatriz() {
         return matriz;
