@@ -49,7 +49,7 @@ public class STOMPMessagesHandler {
                 if(ac.getPosiciones()[0]!=0){
                    int[] vidas=services.getSalasMatrices().get(idsala).getVidas();
                     System.out.println(Arrays.toString(vidas));
-                   if (vidas[0]+vidas[1]+vidas[2]+vidas[3]==4){
+                   if (vidas[0]+vidas[1]==0){
                        msgt.convertAndSend("/topic/findejuego."+String.valueOf(idsala), "images/WProtector.png"); 
                    }
                    else{
