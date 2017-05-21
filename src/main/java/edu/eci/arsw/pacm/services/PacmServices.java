@@ -7,6 +7,7 @@ package edu.eci.arsw.pacm.services;
 
 import edu.eci.arsw.pacm.model.Info;
 import edu.eci.arsw.pacm.model.Player;
+import edu.eci.arsw.pacm.model.Sala;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,4 +35,8 @@ public interface PacmServices {
     public String getId(int sala, String user)  throws ServicesException;
     
     public List<Info> getInfo(int sala)  throws ServicesException;
+    
+    public ConcurrentHashMap<Integer, Sala> getSalasMatrices();
+
+    public void setSalaMatrices(ConcurrentHashMap<Integer, Sala> sala) ;
 }

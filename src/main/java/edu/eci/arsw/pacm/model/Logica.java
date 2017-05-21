@@ -20,7 +20,7 @@ public class Logica implements LogicaAbs {
 
     @Autowired
     PacmServices services;
-    private final ConcurrentHashMap<Integer, Sala> salasMatrices = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer, Sala> salasMatrices ;
 
     public Logica() {
     }
@@ -28,7 +28,7 @@ public class Logica implements LogicaAbs {
     @Override
 
     public Actualizacion mover(int idsala, Jugador j) {
-
+        salasMatrices=services.getSalasMatrices();
         Actualizacion ac = new Actualizacion();
         if (!salasMatrices.containsKey(idsala)) {
             Sala sala = new Sala(LeerFichero.muestraContenido(), LeerFichero.puntos);
@@ -68,16 +68,23 @@ public class Logica implements LogicaAbs {
                         } else {
                             //matar pacman
                             String data = matriz[j.getX()][j.getY()];
-
+                            int tvid=sacarVidas(data,vidas,idsala);
+                            
                             matriz[j.getX()][j.getY()] = "0";
                             int[] ans = morir(data, matriz);
+                            if (tvid>0){
+                                
                             matriz[ans[0]][ans[1]] = data;
                             //crear el pacman
                             Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                            actualizaciones.add(je);
+                            
+                            }
+                            ac.setPosiciones(ans);
                             Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
                             actualizaciones.add(e);
-                            actualizaciones.add(je);
-                            ac.setPosiciones(ans);
+                           
+                            
                             ac.setPlayer(data);
                             ac.setActualizaciones(actualizaciones);
                         }
@@ -146,17 +153,26 @@ public class Logica implements LogicaAbs {
                             ac.setActualizaciones(actualizaciones);
                         } else {
 
-                            String data = matriz[j.getX()][j.getY()];
+                           String data = matriz[j.getX()][j.getY()];
+                            int tvid=sacarVidas(data,vidas,idsala);
+                            
                             matriz[j.getX()][j.getY()] = "0";
                             int[] ans = morir(data, matriz);
+                            //si tiene mas de una vida
+                            if (tvid>0){
+                                
                             matriz[ans[0]][ans[1]] = data;
                             //crear el pacman
                             Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                             actualizaciones.add(je);
+                             
+                            }
+                            ac.setPosiciones(ans);
                             Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
                             actualizaciones.add(e);
-                            actualizaciones.add(je);
+                            
 
-                            ac.setPosiciones(ans);
+                            
                             ac.setPlayer(data);
                             ac.setActualizaciones(actualizaciones);
                         }
@@ -223,17 +239,25 @@ public class Logica implements LogicaAbs {
                             ac.setPlayer(data);
                             ac.setActualizaciones(actualizaciones);
                         } else {
-                            String data = matriz[j.getX()][j.getY()];
+                           String data = matriz[j.getX()][j.getY()];
+                            int tvid=sacarVidas(data,vidas,idsala);
+                            
                             matriz[j.getX()][j.getY()] = "0";
                             int[] ans = morir(data, matriz);
+                            if (tvid>0){
+                                
                             matriz[ans[0]][ans[1]] = data;
                             //crear el pacman
                             Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                             actualizaciones.add(je);
+                             
+                            }
 
+                            ac.setPosiciones(ans);
                             Elemento e = new Elemento(j.getX(), j.getY(), "0", 0);
                             actualizaciones.add(e);
-                            actualizaciones.add(je);
-                            ac.setPosiciones(ans);
+                            
+                            
                             ac.setPlayer(data);
                             ac.setActualizaciones(actualizaciones);
                         }
@@ -304,16 +328,23 @@ public class Logica implements LogicaAbs {
                         } else {
                             //mi jugador
                             String data = matriz[j.getX()][j.getY()];
+                            int tvid=sacarVidas(data,vidas,idsala);
+                            
                             matriz[j.getX()][j.getY()] = "0";
                             int[] ans = morir(data, matriz);
+                            if (tvid>0){
+                                
                             matriz[ans[0]][ans[1]] = data;
                             //crear el pacman
                             Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                             actualizaciones.add(je);
+                             
+                            }
                             ac.setPosiciones(ans);
                             Elemento e = new Elemento(j.getX(), j.getY(), "0", j.getMem());
                             ac.setPlayer(data);
                             actualizaciones.add(e);
-                            actualizaciones.add(je);
+                            
                             ac.setActualizaciones(actualizaciones);
                         }
 
@@ -356,11 +387,7 @@ public class Logica implements LogicaAbs {
                     }
                 }
             }
-			
-			
-			
-			
-			
+
             //si es fantasma
         } else if (matriz[j.getX()][j.getY()].equals("b") || matriz[j.getX()][j.getY()].equals("a") || matriz[j.getX()][j.getY()].equals("c") || matriz[j.getX()][j.getY()].equals("d")) {
             //abajo
@@ -369,19 +396,18 @@ public class Logica implements LogicaAbs {
 
                     int temp;
                     try {
-                    temp = Integer.parseInt(matriz[j.getX() + 1][j.getY()]);
-                    
-                    
-                    matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
-                    matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                        temp = Integer.parseInt(matriz[j.getX() + 1][j.getY()]);
 
-                    Elemento e1 = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], temp);
-                    Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-                    actualizaciones.add(e1);
-                    actualizaciones.add(e2);
+                        matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
+                        matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-                    ac.setActualizaciones(actualizaciones);
-                    
+                        Elemento e1 = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], temp);
+                        Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                        actualizaciones.add(e1);
+                        actualizaciones.add(e2);
+
+                        ac.setActualizaciones(actualizaciones);
+
                     } catch (Exception e) {
                         long tiempo = System.currentTimeMillis();
                         // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
@@ -403,28 +429,35 @@ public class Logica implements LogicaAbs {
 
                             temp = 0;
                             String data = matriz[j.getX() + 1][j.getY()];
-                            int[] ans = morir(data, matriz);
-                            matriz[ans[0]][ans[1]] = data;
-                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
-                            actualizaciones.add(je);
-                            ac.setPlayer(data);
-                            ac.setPosiciones(ans);
-							
-							matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
-							matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
-
-							Elemento e1 = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], temp);
-							Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-							actualizaciones.add(e1);
-							actualizaciones.add(e2);
-
-							ac.setActualizaciones(actualizaciones);
-							
+                            int tvid=sacarVidas(data,vidas,idsala);
                             
+                            
+                            int[] ans = morir(data, matriz);
+                            if (tvid>0){
+                                
+                            matriz[ans[0]][ans[1]] = data;
+                            //crear el pacman
+                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                             actualizaciones.add(je);
+                             
+
+                            }
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            System.out.println("hoola"+matriz[j.getX()][j.getY()]);
+                            matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+                            Elemento e1 = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], temp);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                            actualizaciones.add(e1);
+                            actualizaciones.add(e2);
+
+                            ac.setActualizaciones(actualizaciones);
+
                         }
-                        
+
                     }
-                    
 
                 }
             } else if (j.getK() == 37) {
@@ -432,17 +465,17 @@ public class Logica implements LogicaAbs {
                     int temp;
                     try {
                         temp = Integer.parseInt(matriz[j.getX()][j.getY() - 1]);
-						
-						matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
-						matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-						Elemento e1 = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], temp);
-						Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-						actualizaciones.add(e1);
-						actualizaciones.add(e2);
-						ac.setActualizaciones(actualizaciones);
+                        matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
+                        matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+                        Elemento e1 = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], temp);
+                        Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                        actualizaciones.add(e1);
+                        actualizaciones.add(e2);
+                        ac.setActualizaciones(actualizaciones);
                     } catch (Exception e) {
-						long tiempo = System.currentTimeMillis();
+                        long tiempo = System.currentTimeMillis();
                         // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
                         if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
                             //comer fantasma
@@ -459,26 +492,36 @@ public class Logica implements LogicaAbs {
                             ac.setActualizaciones(actualizaciones);
 
                         } else {
-							temp = 0;
-							String data = matriz[j.getX()][j.getY() - 1];
-							int[] ans = morir(data, matriz);
-							matriz[ans[0]][ans[1]] = data;
-							Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
-							actualizaciones.add(je);
-							ac.setPosiciones(ans);
-							ac.setPlayer(data);
-							
-							matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
-							matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                            temp = 0;
+                            String data = matriz[j.getX()][j.getY() - 1];
+                            int tvid=sacarVidas(data,vidas,idsala);
+                            
+                            
+                             int[] ans = morir(data, matriz);
+                            if (tvid>0){
+                               
+                            matriz[ans[0]][ans[1]] = data;
+                            //crear el pacman
+                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                             actualizaciones.add(je);
+                             
+                            }
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            System.out.println("hoola"+matriz[j.getX()][j.getY()]);
 
-							Elemento e1 = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], temp);
-							Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-							actualizaciones.add(e1);
-							actualizaciones.add(e2);
-							ac.setActualizaciones(actualizaciones);
-						}
+                          
+                            matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+                            Elemento e1 = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], temp);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                            actualizaciones.add(e1);
+                            actualizaciones.add(e2);
+                            ac.setActualizaciones(actualizaciones);
+                        }
                     }
-                    
+
                 }
             } else if (j.getK() == 38) {
                 if (!(matriz[j.getX() - 1][j.getY()]).equals("3") && !(matriz[j.getX() - 1][j.getY()]).equals("a") && !(matriz[j.getX() - 1][j.getY()]).equals("b") && !(matriz[j.getX() - 1][j.getY()]).equals("c") && !(matriz[j.getX() - 1][j.getY()]).equals("d")) {
@@ -486,17 +529,17 @@ public class Logica implements LogicaAbs {
                     try {
                         temp = Integer.parseInt(matriz[j.getX() - 1][j.getY()]);
 
-						matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
-						matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                        matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
+                        matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-						Elemento e1 = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], temp);
-						Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-						actualizaciones.add(e1);
-						actualizaciones.add(e2);
-						ac.setActualizaciones(actualizaciones);
+                        Elemento e1 = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], temp);
+                        Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                        actualizaciones.add(e1);
+                        actualizaciones.add(e2);
+                        ac.setActualizaciones(actualizaciones);
 
                     } catch (Exception e) {
-						long tiempo = System.currentTimeMillis();
+                        long tiempo = System.currentTimeMillis();
                         // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
                         if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
                             //comer fantasma
@@ -513,43 +556,52 @@ public class Logica implements LogicaAbs {
                             ac.setActualizaciones(actualizaciones);
 
                         } else {
-							temp = 0;
-							String data = matriz[j.getX() - 1][j.getY()];
-							int[] ans = morir(data, matriz);
-							matriz[ans[0]][ans[1]] = data;
-							Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
-							actualizaciones.add(je);
-							ac.setPosiciones(ans);
-							ac.setPlayer(data);
-							
-							matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
-							matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                            temp = 0;
+                            String data = matriz[j.getX() - 1][j.getY()];
+                            int tvid=sacarVidas(data,vidas,idsala);
+                            
+                            
+                            int[] ans = morir(data, matriz);
+                            if (tvid>0){
+                                
+                            matriz[ans[0]][ans[1]] = data;
+                            //crear el pacman
+                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                             actualizaciones.add(je);
+                            
+                            }
+                             ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            System.out.println("hoola"+matriz[j.getX()][j.getY()]);
 
-							Elemento e1 = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], temp);
-							Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-							actualizaciones.add(e1);
-							actualizaciones.add(e2);
-							ac.setActualizaciones(actualizaciones);
-						}
+                            matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+                            Elemento e1 = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], temp);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                            actualizaciones.add(e1);
+                            actualizaciones.add(e2);
+                            ac.setActualizaciones(actualizaciones);
+                        }
                     }
-                    
+
                 }
             } else if (j.getK() == 39) {
                 if (!(matriz[j.getX()][j.getY() + 1]).equals("3") && !(matriz[j.getX()][j.getY() + 1]).equals("a") && !(matriz[j.getX()][j.getY() + 1]).equals("b") && !(matriz[j.getX()][j.getY() + 1]).equals("c") && !(matriz[j.getX()][j.getY() + 1]).equals("d")) {
                     int temp;
                     try {
                         temp = Integer.parseInt(matriz[j.getX()][j.getY() + 1]);
-						
-						matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
-						matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-						Elemento e1 = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], temp);
-						Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-						actualizaciones.add(e1);
-						actualizaciones.add(e2);
-						ac.setActualizaciones(actualizaciones);
+                        matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
+                        matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+
+                        Elemento e1 = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], temp);
+                        Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                        actualizaciones.add(e1);
+                        actualizaciones.add(e2);
+                        ac.setActualizaciones(actualizaciones);
                     } catch (Exception e) {
-						long tiempo = System.currentTimeMillis();
+                        long tiempo = System.currentTimeMillis();
                         // miro que la lista de tiempos no este vacia y miro si la diferencia del ultimo tiempo agregado es menor a 10 segundos
                         if ((!salasMatrices.get(idsala).getTiemposComibles().isEmpty()) && (tiempo - salasMatrices.get(idsala).getTiemposComibles().get(salasMatrices.get(idsala).getTiemposComibles().size() - 1) < 10000)) {
                             //comer fantasma
@@ -566,26 +618,34 @@ public class Logica implements LogicaAbs {
                             ac.setActualizaciones(actualizaciones);
 
                         } else {
-							temp = 0;
-							String data = matriz[j.getX()][j.getY() + 1];
-							int[] ans = morir(data, matriz);
-							matriz[ans[0]][ans[1]] = data;
-							Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
-							actualizaciones.add(je);
-							ac.setPlayer(data);
-							ac.setPosiciones(ans);
-							
-							matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
-							matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                            temp = 0;
+                            String data = matriz[j.getX()][j.getY() + 1];
+                            int tvid=sacarVidas(data,vidas,idsala);
+                            
+                            
+                             int[] ans = morir(data, matriz);
+                            if (tvid>0){
+                               
+                            matriz[ans[0]][ans[1]] = data;
+                            //crear el pacman
+                            Elemento je = new Elemento(ans[0], ans[1], data, j.getMem() - 1);
+                             actualizaciones.add(je);
+                             
+                            }
+                            ac.setPosiciones(ans);
+                            ac.setPlayer(data);
+                            System.out.println("hoola"+matriz[j.getX()][j.getY()]);                            
+                            matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
+                            matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
-							Elemento e1 = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], temp);
-							Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
-							actualizaciones.add(e1);
-							actualizaciones.add(e2);
-							ac.setActualizaciones(actualizaciones);
-						}
+                            Elemento e1 = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], temp);
+                            Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
+                            actualizaciones.add(e1);
+                            actualizaciones.add(e2);
+                            ac.setActualizaciones(actualizaciones);
+                        }
                     }
-                    
+
                 }
             }
         }
@@ -597,10 +657,11 @@ public class Logica implements LogicaAbs {
 //            System.out.println("");
 //        
 //        }
-
+//         System.out.println("");
+        
         salasMatrices.get(idsala).setMatriz(matriz);
         salasMatrices.get(idsala).setPuntos(puntos);
-
+        services.setSalaMatrices(salasMatrices);
         return ac;
     }
 
@@ -677,5 +738,24 @@ public class Logica implements LogicaAbs {
         ac.setComibles(true);
         s.setTiemposComibles(tiemposComibles);
 
+    }
+    
+    public int sacarVidas(String data,int[] vidas,int sala){
+        int tvid=0;
+        if (data.equals("A")){
+            vidas[0] = vidas[0] - 1;
+            tvid = vidas[0];
+        } else if (data.equals("B")) {
+            vidas[1] = vidas[1] - 1;
+            tvid = vidas[1];
+        } else if (data.equals("C")) {
+            vidas[2] = vidas[2] - 1;
+            tvid = vidas[2];
+        } else if (data.equals("D")) {
+            vidas[3] = vidas[3] - 1;
+            tvid = vidas[3];
+        }
+        salasMatrices.get(sala).setVidas(vidas);
+        return tvid;
     }
 }

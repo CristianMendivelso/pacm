@@ -8,6 +8,7 @@ package edu.eci.arsw.pacm.services;
 import edu.eci.arsw.pacm.model.Info;
 import edu.eci.arsw.pacm.model.LeerFichero;
 import edu.eci.arsw.pacm.model.Player;
+import edu.eci.arsw.pacm.model.Sala;
 import edu.eci.arsw.pacm.model.Teams;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ public class PacmServicesStub implements PacmServices{
     private ConcurrentHashMap<Integer, Teams> salasData=new ConcurrentHashMap<>();
     private String[][] mat;
     private int salas=0;
+    private ConcurrentHashMap<Integer, Sala> salasMatrices = new ConcurrentHashMap<>();
+
     
 
     public PacmServicesStub(){
@@ -100,6 +103,17 @@ public class PacmServicesStub implements PacmServices{
         return salasData.get(sala).getInformacion();
     }
 
+    @Override
+    public ConcurrentHashMap<Integer, Sala> getSalasMatrices() {
+        return this.salasMatrices;
+    }
+
+    @Override
+    public void setSalaMatrices(ConcurrentHashMap<Integer, Sala> sala) {
+        this.salasMatrices=sala;
+    }
+
+    
     
     
 }

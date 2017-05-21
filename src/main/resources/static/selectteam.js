@@ -18,7 +18,6 @@ function atacante() {
             contentType: "application/json"
         }).then(
                 function () {
-                    alert("Competitor registered successfully!");
                     sessionStorage.setItem('identificador', identificador);
                     stompClient.subscribe('/topic/Jugar.'+sessionStorage.getItem('sala'), function (data) {
                         document.location.href = "jugar.html";
@@ -51,7 +50,6 @@ function protector() {
         }).then(
                 function () {
                     
-                    alert("Competitor registered successfully!");
                     stompClient.subscribe('/topic/Jugar.'+sessionStorage.getItem('sala'), function (data) {
                         document.location.href = "jugar.html";
                     });

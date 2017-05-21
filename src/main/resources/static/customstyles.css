@@ -1,7 +1,5 @@
 body {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  background: url('./images/pac2.jpg')
+  background: url('./images/pac2.jpg');
 }
 
 h3 {
@@ -94,7 +92,6 @@ hr {
 
 /* button div */
 #buttons {
-  padding-top: 50px;
   text-align: center;
 }
 

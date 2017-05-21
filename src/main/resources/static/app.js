@@ -116,11 +116,13 @@ function cargarSala() {
                 if (data[i].alias === "A") {
                     ctx.font = "bold 18px sans-serif";
                     ctx.fillStyle = "white";
-                    ctx.fillText(data[i].nombre, 20, 540);
+                    nameA=data[i].nombre;
+                    ctx.fillText(data[i].nombre+" LIV=2", 20, 540);
                 } else if (data[i].alias === "B") {
+                    nameB=data[i].nombre;
                     ctx.font = "bold 18px sans-serif";
                     ctx.fillStyle = "white";
-                    ctx.fillText(data[i].nombre, 20, 520);
+                    ctx.fillText(data[i].nombre+" LIV=2", 20, 520);
                 } else if (data[i].alias === "a") {
                     ctx.font = "bold 18px sans-serif";
                     ctx.fillStyle = "white";
@@ -275,11 +277,12 @@ function connect() {
 
         stompClient.subscribe('/topic/findejuego.' + sessionStorage.getItem('sala'), function (data) {
             var gana = data.body;
-            ctx.font = "Helvetica 200px sans-serif";
-            ctx.fillStyle = "rgba(255,0,0,0.5)";
-            ctx.fillText("El Equipo Ganador Es El", 110, 200);
-            ctx.fillText(gana, 110, 250);
-			$("#buttons").append($('<a href="index.html" class="btn yellow">Volver al inicio</a>'));
+            var image = new Image();
+            image.src = gana;
+            image.onload = function () {
+                ctx.drawImage(image, 160, 155,400,170);
+            };
+            $("#buttons").append($('<a href="index.html" class="btn yellow">Volver al inicio</a>'));
 			
 
             disconnect();
@@ -295,6 +298,21 @@ function connect() {
             // cambiar imagen de los fantasmas segun la variable
         });
         
+        stompClient.subscribe('/topic/cambioVidas.' + sessionStorage.getItem('sala'), function (data) {
+            lives= data.body;
+            ctx.fillStyle = "black";
+            ctx.fillText(nameA+" LIV=  ", 20, 540);
+            ctx.font = "bold 18px sans-serif";
+            ctx.fillStyle = "white";
+            ctx.fillText(nameA+" LIV="+lives[0], 20, 540);
+            ctx.fillStyle = "black";
+            ctx.fillText(nameB+" LIV=  ", 20, 520);
+            ctx.font = "bold 18px sans-serif";
+            ctx.fillStyle = "white";
+            ctx.fillText(nameB+" LIV="+lives[1], 20, 520);
+        });
+        
+        
         stompClient.subscribe('/topic/'+sessionStorage.getItem('sala')+'/'+myplayer, function (data) {
         var positions=JSON.parse(data.body);
         //editar
@@ -302,8 +320,7 @@ function connect() {
         myposy = positions[1];
         mymem= mymem-1;
         if(myplayer === myplayer.toUpperCase() && mymem===0){
-                alert("muerto");
-                disconnect();
+                alert("Game Over");
         }
 
 

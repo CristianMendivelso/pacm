@@ -8,6 +8,7 @@ package edu.eci.arsw.pacm.controllers;
 import edu.eci.arsw.pacm.model.Actualizacion;
 import edu.eci.arsw.pacm.model.Jugador;
 import edu.eci.arsw.pacm.model.Logica;
+import edu.eci.arsw.pacm.services.PacmServices;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -21,6 +22,9 @@ public class STOMPMessagesHandler {
     @Autowired
     SimpMessagingTemplate msgt;
 
+    @Autowired
+    PacmServices services;
+    
     @Autowired
     Logica l;
     Object Lock = new Object();
@@ -36,16 +40,23 @@ public class STOMPMessagesHandler {
                     msgt.convertAndSend("/topic/puntosRestantes." + String.valueOf(idsala), ac.getPuntos());
                 }
                 if (ac.getPuntos()==0){
-                   msgt.convertAndSend("/topic/findejuego."+String.valueOf(idsala), "EQUIPO ATACANTE"); 
+                   msgt.convertAndSend("/topic/findejuego."+String.valueOf(idsala), "images/WAtacante.png"); 
                 }
                 if (ac.getComibles()){
                     ac.setComibles(false);
                     msgt.convertAndSend("/topic/fantasmasComibles."+String.valueOf(idsala), ac.getComibles()); 
                 }
                 if(ac.getPosiciones()[0]!=0){
-                   System.out.println(Arrays.toString(ac.getPosiciones()));
-                   msgt.convertAndSend("/topic/"+String.valueOf(idsala)+'/'+ac.getPlayer(), ac.getPosiciones()); 
-                }
+                   int[] vidas=services.getSalasMatrices().get(idsala).getVidas();
+                    System.out.println(Arrays.toString(vidas));
+                   if (vidas[0]+vidas[1]+vidas[2]+vidas[3]==4){
+                       msgt.convertAndSend("/topic/findejuego."+String.valueOf(idsala), "images/WProtector.png"); 
+                   }
+                   else{
+                       msgt.convertAndSend("/topic/cambioVidas."+String.valueOf(idsala), vidas);
+                       msgt.convertAndSend("/topic/"+String.valueOf(idsala)+'/'+ac.getPlayer(), ac.getPosiciones());                 
+                   }
+                }   
             }
         }
 
