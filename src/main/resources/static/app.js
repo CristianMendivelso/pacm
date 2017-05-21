@@ -13,7 +13,10 @@ var fantasmaA = "images/fana.png";
 var fantasmaB = "images/fanb.png";
 var fantasmaC = "images/fanc.png";
 var fantasmaD = "images/fand.png";
-
+var nameA;
+var nameB;
+var nameC;
+var nameD;
 var cont = 0;
 
 
@@ -117,12 +120,14 @@ function cargarSala() {
                     ctx.font = "bold 18px sans-serif";
                     ctx.fillStyle = "white";
                     nameA=data[i].nombre;
-                    ctx.fillText(data[i].nombre+" LIV=2", 20, 540);
+                    ctx.fillText(data[i].nombre+" L= 2", 20, 540);
+                    
                 } else if (data[i].alias === "B") {
                     nameB=data[i].nombre;
                     ctx.font = "bold 18px sans-serif";
                     ctx.fillStyle = "white";
-                    ctx.fillText(data[i].nombre+" LIV=2", 20, 520);
+                    ctx.fillText(data[i].nombre+" L= 2", 20, 520);
+                    
                 } else if (data[i].alias === "a") {
                     ctx.font = "bold 18px sans-serif";
                     ctx.fillStyle = "white";
@@ -300,16 +305,18 @@ function connect() {
         
         stompClient.subscribe('/topic/cambioVidas.' + sessionStorage.getItem('sala'), function (data) {
             lives= data.body;
-            ctx.fillStyle = "black";
-            ctx.fillText(nameA+" LIV=  ", 20, 540);
-            ctx.font = "bold 18px sans-serif";
-            ctx.fillStyle = "white";
-            ctx.fillText(nameA+" LIV="+lives[0], 20, 540);
-            ctx.fillStyle = "black";
-            ctx.fillText(nameB+" LIV=  ", 20, 520);
-            ctx.font = "bold 18px sans-serif";
-            ctx.fillStyle = "white";
-            ctx.fillText(nameB+" LIV="+lives[1], 20, 520);
+            ctx.clearRect(20,500,160,20);
+            ctx.clearRect(20,520,160,20);
+            
+                    ctx.font = "bold 18px sans-serif";
+                    ctx.fillStyle = "white";
+                    ctx.fillText(nameA+" L= "+lives[1], 20, 540);
+                    ctx.fillText(nameB+" L= "+lives[3], 20, 520);
+                    
+            
+            
+            
+            
         });
         
         

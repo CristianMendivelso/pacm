@@ -34,7 +34,7 @@ public class HiloTiempos  extends Thread{
         try {
             HiloTiempos.sleep(2000);
             msgt.convertAndSend("/topic/Jugar."+String.valueOf(numsala),this.nombre);
-            HiloTiempos.sleep(150000);
+            HiloTiempos.sleep(140000);
             msgt.convertAndSend("/topic/findejuego."+String.valueOf(numsala), "images/WProtector.png"); 
         } catch (InterruptedException ex) {
             Logger.getLogger(HiloTiempos.class.getName()).log(Level.SEVERE, null, ex);
