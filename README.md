@@ -16,6 +16,10 @@ Software Architecture
 
 2017-1
 
+### Professor
+
+Hector Fabio Cadavid Rengifo
+
 ## Description
 
 Based on Pac-Man, one of the most popular video games in the world, it has been thought to create a game with similar characteristics but with different objectives, highlighting elements of a collaborative system, creating value in the simultaneous participation, and based on the objectives Which have RPG games online. Thus exalting the tools that will be seen in the course.
