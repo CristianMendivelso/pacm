@@ -33,6 +33,6 @@ In this case each team has a different objective in the game, in the team of the
 
 ## Link Heroku
 
-[]http://pacm.herokuapp.com/
+http://pacm.herokuapp.com/
 
 
