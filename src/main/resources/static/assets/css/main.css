@@ -1018,6 +1018,11 @@
 		font-size: 1.35em;
 		line-height: 1.65em;
 	}
+        
+        #header c {
+		font-size: 1.05em;
+		line-height: 0.5em;
+	}
 
 	#header a {
 		color: inherit;

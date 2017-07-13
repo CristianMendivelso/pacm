@@ -104,13 +104,13 @@ function cargarSala() {
         }
         var myObstacle = new ipacman(20, 20, "images/rightA.png", 0 * 20, 26 * 20.2, "image");
         var myObstacle = new ipacman(20, 20, "images/rightB.png", 0 * 20, 25 * 20.2, "image");
-        var myObstacle = new ipacman(20, 20, "images/rightC.png", 9 * 20, 26 * 20.2, "image");
-        var myObstacle = new ipacman(20, 20, "images/rightD.png", 9 * 20, 25 * 20.2, "image");
+      //  var myObstacle = new ipacman(20, 20, "images/rightC.png", 9 * 20, 26 * 20.2, "image");
+      //  var myObstacle = new ipacman(20, 20, "images/rightD.png", 9 * 20, 25 * 20.2, "image");
 
         var myObstacle = new ighost(20, 20, "images/fana.png", 18 * 20, 26 * 20.2, "image");
         var myObstacle = new ighost(20, 20, "images/fanb.png", 18 * 20, 25 * 20.2, "image");
-        var myObstacle = new ighost(20, 20, "images/fanc.png", 27 * 20, 26 * 20.2, "image");
-        var myObstacle = new ighost(20, 20, "images/fand.png", 27 * 20, 25 * 20.2, "image");
+      //  var myObstacle = new ighost(20, 20, "images/fanc.png", 27 * 20, 26 * 20.2, "image");
+      //  var myObstacle = new ighost(20, 20, "images/fand.png", 27 * 20, 25 * 20.2, "image");
 
         $.get("/salas/" + sessionStorage.getItem('sala') + "/info", function (data) {
 

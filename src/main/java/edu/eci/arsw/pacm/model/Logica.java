@@ -55,6 +55,7 @@ public class Logica implements LogicaAbs {
                             matriz[j.getX()][j.getY()] = "0";
                             int[] ans = morir(data, matriz);
                             matriz[ans[0]][ans[1]] = data;
+                            
                             Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], j.getMem());
                             Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                             Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
