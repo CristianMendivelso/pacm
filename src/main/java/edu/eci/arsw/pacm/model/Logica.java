@@ -55,7 +55,16 @@ public class Logica implements LogicaAbs {
                             matriz[j.getX()][j.getY()] = "0";
                             int[] ans = morir(data, matriz);
                             matriz[ans[0]][ans[1]] = data;
-                            
+                            if (data.equals('a') && salasMatrices.get(idsala).getMemoriaFantasmas()[0]){
+                                puntos -= 1;
+                                ac.setPuntos(puntos);
+                                ac.setCambioDePuntos(true);
+                            }
+                            else if (data.equals('b') && salasMatrices.get(idsala).getMemoriaFantasmas()[1]){
+                                puntos -= 1;
+                                ac.setPuntos(puntos);
+                                ac.setCambioDePuntos(true);
+                            }
                             Elemento e = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], j.getMem());
                             Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                             Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
@@ -143,6 +152,22 @@ public class Logica implements LogicaAbs {
                             matriz[j.getX()][j.getY()] = "0";
                             int[] ans = morir(data, matriz);
                             matriz[ans[0]][ans[1]] = data;
+                            System.out.println(data+"-----------------data----------");
+                            boolean g[] = new boolean[2];
+                            System.out.println(g[0]+"boooooooooooooooo");
+                            if (data.equals("a") && salasMatrices.get(idsala).getMemoriaFantasmas()[0]){
+                                System.out.println("hooolaaaaaaaaaaaaaaaaaaaa");
+                                puntos -= 1;
+                                ac.setPuntos(puntos);
+                                ac.setCambioDePuntos(true);
+                            }
+                            else if (data.equals("b") && salasMatrices.get(idsala).getMemoriaFantasmas()[1]){
+                                                                System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+
+                                puntos -= 1;
+                                ac.setPuntos(puntos);
+                                ac.setCambioDePuntos(true);
+                            }
                             Elemento e = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], j.getMem());
                             Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                             Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
@@ -230,6 +255,16 @@ public class Logica implements LogicaAbs {
                             matriz[j.getX()][j.getY()] = "0";
                             int[] ans = morir(data, matriz);
                             matriz[ans[0]][ans[1]] = data;
+                            if (data.equals('a') && salasMatrices.get(idsala).getMemoriaFantasmas()[0]){
+                                puntos -= 1;
+                                ac.setPuntos(puntos);
+                                ac.setCambioDePuntos(true);
+                            }
+                            else if (data.equals('b') && salasMatrices.get(idsala).getMemoriaFantasmas()[1]){
+                                puntos -= 1;
+                                ac.setPuntos(puntos);
+                                ac.setCambioDePuntos(true);
+                            }
                             Elemento e = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], j.getMem());
                             Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                             Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
@@ -317,6 +352,16 @@ public class Logica implements LogicaAbs {
                             matriz[j.getX()][j.getY()] = "0";
                             int[] ans = morir(data, matriz);
                             matriz[ans[0]][ans[1]] = data;
+                            if (data.equals('a') && salasMatrices.get(idsala).getMemoriaFantasmas()[0]){
+                                puntos -= 1;
+                                ac.setPuntos(puntos);
+                                ac.setCambioDePuntos(true);
+                            }
+                            else if (data.equals('b') && salasMatrices.get(idsala).getMemoriaFantasmas()[1]){
+                                puntos -= 1;
+                                ac.setPuntos(puntos);
+                                ac.setCambioDePuntos(true);
+                            }
                             Elemento e = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], j.getMem());
                             Elemento e2 = new Elemento(j.getX(), j.getY(), "0", 0);
                             Elemento ej = new Elemento(ans[0], ans[1], "0", 0);
@@ -398,9 +443,33 @@ public class Logica implements LogicaAbs {
                     int temp;
                     try {
                         temp = Integer.parseInt(matriz[j.getX() + 1][j.getY()]);
-
+                        if (temp==1 || temp==2){
+                            if (matriz[j.getX()][j.getY()].equals("a")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[0]=true;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                            else if(matriz[j.getX()][j.getY()].equals("b")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[1]=true;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                        }
+                        else if (temp==0){
+                            if (matriz[j.getX()][j.getY()].equals("a")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[0]=false;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                            else if(matriz[j.getX()][j.getY()].equals("b")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[1]=false;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                        }
                         matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
+                        
 
                         Elemento e1 = new Elemento(j.getX() + 1, j.getY(), matriz[j.getX() + 1][j.getY()], temp);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
@@ -445,7 +514,6 @@ public class Logica implements LogicaAbs {
                             }
                             ac.setPosiciones(ans);
                             ac.setPlayer(data);
-                            System.out.println("hoola"+matriz[j.getX()][j.getY()]);
                             matriz[j.getX() + 1][j.getY()] = matriz[j.getX()][j.getY()];
                             matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
 
@@ -467,9 +535,36 @@ public class Logica implements LogicaAbs {
                     try {
                         temp = Integer.parseInt(matriz[j.getX()][j.getY() - 1]);
 
+                        System.out.println(temp);
+
+                        if (temp==1 || temp==2){
+                            if (matriz[j.getX()][j.getY()].equals("a")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[0]=true;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                            else if(matriz[j.getX()][j.getY()].equals("b")){
+
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[1]=true;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                        }
+                        else if (temp==0){
+                            if (matriz[j.getX()][j.getY()].equals("a")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[0]=false;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                            else if(matriz[j.getX()][j.getY()].equals("b")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[1]=false;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                        }
                         matriz[j.getX()][j.getY() - 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
-
+                        
                         Elemento e1 = new Elemento(j.getX(), j.getY() - 1, matriz[j.getX()][j.getY() - 1], temp);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
                         actualizaciones.add(e1);
@@ -529,10 +624,33 @@ public class Logica implements LogicaAbs {
                     int temp;
                     try {
                         temp = Integer.parseInt(matriz[j.getX() - 1][j.getY()]);
-
+                         if (temp==1 || temp==2){
+                            if (matriz[j.getX()][j.getY()].equals("a")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[0]=true;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                            else if(matriz[j.getX()][j.getY()].equals("b")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[1]=true;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                        }
+                        else if (temp==0){
+                            if (matriz[j.getX()][j.getY()].equals("a")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[0]=false;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                            else if(matriz[j.getX()][j.getY()].equals("b")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[1]=false;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                        }
                         matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
-
+                       
                         Elemento e1 = new Elemento(j.getX() - 1, j.getY(), matriz[j.getX() - 1][j.getY()], temp);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
                         actualizaciones.add(e1);
@@ -573,7 +691,6 @@ public class Logica implements LogicaAbs {
                             }
                              ac.setPosiciones(ans);
                             ac.setPlayer(data);
-                            System.out.println("hoola"+matriz[j.getX()][j.getY()]);
 
                             matriz[j.getX() - 1][j.getY()] = matriz[j.getX()][j.getY()];
                             matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
@@ -592,10 +709,33 @@ public class Logica implements LogicaAbs {
                     int temp;
                     try {
                         temp = Integer.parseInt(matriz[j.getX()][j.getY() + 1]);
-
+                        if (temp==1 || temp==2){
+                            if (matriz[j.getX()][j.getY()].equals("a")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[0]=true;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                            else if(matriz[j.getX()][j.getY()].equals("b")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[1]=true;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                        }
+                        else if (temp==0){
+                            if (matriz[j.getX()][j.getY()].equals("a")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[0]=false;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                            else if(matriz[j.getX()][j.getY()].equals("b")){
+                                boolean[] memTemp=salasMatrices.get(idsala).getMemoriaFantasmas();
+                                memTemp[1]=false;
+                                salasMatrices.get(idsala).setMemoriaFantasmas(memTemp);
+                            }
+                        }
                         matriz[j.getX()][j.getY() + 1] = matriz[j.getX()][j.getY()];
                         matriz[j.getX()][j.getY()] = String.valueOf(j.getMem());
-
+                        
                         Elemento e1 = new Elemento(j.getX(), j.getY() + 1, matriz[j.getX()][j.getY() + 1], temp);
                         Elemento e2 = new Elemento(j.getX(), j.getY(), String.valueOf(j.getMem()), 0);
                         actualizaciones.add(e1);

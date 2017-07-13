@@ -16,9 +16,18 @@ public class Sala {
     int puntos;
     int[] vidas=new int[4];
     private ArrayList<Long> tiemposComibles = new ArrayList();
+    boolean[] memoriaFantasmas = new boolean[2];
 
     public ArrayList<Long> getTiemposComibles() {
         return tiemposComibles;
+    }
+
+    public boolean[] getMemoriaFantasmas() {
+        return memoriaFantasmas;
+    }
+
+    public void setMemoriaFantasmas(boolean[] memoriaFantasmas) {
+        this.memoriaFantasmas = memoriaFantasmas;
     }
 
     public void setTiemposComibles(ArrayList<Long> tiemposComibles) {
@@ -41,7 +50,7 @@ public class Sala {
     public void setVidas(int[] vidas) {
         this.vidas = vidas;
     }
-
+    
     public int getPuntos() {
         return puntos;
     }
